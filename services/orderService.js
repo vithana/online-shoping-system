@@ -17,13 +17,10 @@ module.exports.findAllOrders =async (body,res) => {
 };
 
 //Create New Order
-module.exports.createOrder =async (body) => {
+module.exports.createOrder =async (body, res) => {
 
-    let products = [];
+    let products = JSON.parse(body.products);
 
-    // for (let i = 0; i < body.products.length; i++){
-    //     products.push(body.products[i])
-    // }
     // Create a new Order
     const order = new Order({
         name: body.name,
@@ -35,49 +32,47 @@ module.exports.createOrder =async (body) => {
     });
 
     // Save order in the database
-    order
-        .save()
-        .then(order => console.log(order))
-        .catch(err => console.log(err));
-
-    return order;
+    order.save()
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Something went wrong while creating new order."
+        });
+    });
 };
 
 //Find one Order
-module.exports.findOrderByID =async (body,res) => {
+module.exports.findOrderByID =async (id, body,res) => {
 
-    Order.findById(body.id)
+    Order.findById(id)
         .then(order => {
             if(!order) {
                 return res.status(404).send({
-                    message: "Order not found with id " + body.id
+                    message: "Order not found with id " + id
                 });
             }
             res.send(order);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Order not found with id " + body.id
+                message: "Order not found with id " + id
             });
         }
         return res.status(500).send({
-            message: "Error getting user with id " + body.id
+            message: "Error getting order with id " + id
         });
     });
 
 };
 
 //Update an Order
-module.exports.updateOrder =async (body,res) => {
+module.exports.updateOrder =async (id, body,res) => {
 
-    let products = [];
-
-    for (let i = 0; i < body.products.length; i++){
-        products.push([body.products[i][0], body.products[i][1]])
-    }
+    let products = JSON.parse(body.products);
 
     // Find user and update it with the request body
-    Order.findByIdAndUpdate(body.id, {
+    Order.findByIdAndUpdate(id, {
         name: body.name,
         total: body.total,
         status: body.status,
@@ -88,42 +83,41 @@ module.exports.updateOrder =async (body,res) => {
         .then(order => {
             if(!order) {
                 return res.status(404).send({
-                    message: "Order not found with id " + body.id
+                    message: "Order not found with id " + id
                 });
             }
-            return order;
+            res.send(order);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Order not found with id " + body.id
+                message: "Order not found with id " + id
             });
         }
         return res.status(500).send({
-            message: "Error updating user with id " + body.id
+            message: "Error updating order with id " + id
         });
     });
-
 };
 
 //Delete an Order
-module.exports.deleteOrder =async (body,res) => {
+module.exports.deleteOrder =async (id, body,res) => {
 
-    Order.findByIdAndRemove(body.id)
+    Order.findByIdAndRemove(id)
         .then(order => {
             if(!order) {
                 return res.status(404).send({
-                    message: "Order not found with id " + body.id
+                    message: "Order not found with id " + id
                 });
             }
             res.send({message: "Order deleted successfully!"});
         }).catch(err => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
-                message: "Order not found with id " + body.id
+                message: "Order not found with id " + id
             });
         }
         return res.status(500).send({
-            message: "Could not delete order with id " + body.id
+            message: "Could not delete order with id " + id
         });
     });
 };

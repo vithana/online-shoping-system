@@ -21,30 +21,30 @@ router
         controllers.createOrder
     );
 
-// @route GET api/orders/get
+// @route GET api/orders/get/:id
 // @desc Get an Order
 // @access Public
 router
-    .route("/get")
+    .route("/get/:id")
     .get(
         controllers.findOrderByID
     );
 
-// @route PUT api/orders/update
+// @route PUT api/orders/update/:id
 // @desc Update an Order
 // @access Public
 router
-    .route("/update")
+    .route("/update/:id")
     .put(
         controllers.updateOrder,
     );
 
-// @route DELETE api/orders/delete
+// @route DELETE api/orders/delete/:id
 // @desc Delete an Order
 // @access Public
 router
-    .route("/delete")
-    .put(
+    .route("/delete/:id")
+    .delete(
         controllers.deleteOrder,
     );
 
