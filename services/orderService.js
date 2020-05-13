@@ -1,0 +1,123 @@
+const express = require("express");
+
+// Load Order model
+const Order = require("../models/Order");
+
+//Find all Orders
+module.exports.findAllOrders =async (body,res) => {
+
+    return Order.find()
+        .then(orders => res.json(orders))
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Something went wrong while getting list of orders."
+            });
+        });
+
+};
+
+//Create New Order
+module.exports.createOrder =async (body, res) => {
+
+    let products = JSON.parse(body.products);
+
+    // Create a new Order
+    const order = new Order({
+        name: body.name,
+        total: body.total,
+        status: body.status,
+        payment_type: body.payment_type,
+        user_id: body.user_id ? body.user_id : "",
+        products: products
+    });
+
+    // Save order in the database
+    order.save()
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Something went wrong while creating new order."
+        });
+    });
+};
+
+//Find one Order
+module.exports.findOrderByID =async (id, body,res) => {
+
+    Order.findById(id)
+        .then(order => {
+            if(!order) {
+                return res.status(404).send({
+                    message: "Order not found with id " + id
+                });
+            }
+            res.send(order);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Order not found with id " + id
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting order with id " + id
+        });
+    });
+
+};
+
+//Update an Order
+module.exports.updateOrder =async (id, body,res) => {
+
+    let products = JSON.parse(body.products);
+
+    // Find user and update it with the request body
+    Order.findByIdAndUpdate(id, {
+        name: body.name,
+        total: body.total,
+        status: body.status,
+        payment_type: body.payment_type,
+        user_id: body.user_id ? body.user_id : "",
+        products: products
+    }, {new: true})
+        .then(order => {
+            if(!order) {
+                return res.status(404).send({
+                    message: "Order not found with id " + id
+                });
+            }
+            res.send(order);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Order not found with id " + id
+            });
+        }
+        return res.status(500).send({
+            message: "Error updating order with id " + id
+        });
+    });
+};
+
+//Delete an Order
+module.exports.deleteOrder =async (id, body,res) => {
+
+    Order.findByIdAndRemove(id)
+        .then(order => {
+            if(!order) {
+                return res.status(404).send({
+                    message: "Order not found with id " + id
+                });
+            }
+            res.send({message: "Order deleted successfully!"});
+        }).catch(err => {
+        if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+            return res.status(404).send({
+                message: "Order not found with id " + id
+            });
+        }
+        return res.status(500).send({
+            message: "Could not delete order with id " + id
+        });
+    });
+};
