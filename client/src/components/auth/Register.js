@@ -13,6 +13,7 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
+      userRole: "",
       errors: {}
     };
   }
@@ -42,8 +43,11 @@ class Register extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
+      userRole: "user"
     };
+
+    console.log(newUser);
 
     this.props.registerUser(newUser, this.props.history);
   };

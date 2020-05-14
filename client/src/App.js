@@ -13,6 +13,11 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import adminDashboard from "./components/adminDashboard/AdminDashboard"
+import storeManagerDashboard from "./components/storeManagerDashboard/StoreManagerDashboard"
+
+import AdminPrivateRoute from "./components/private-route/AdminPrivateRoute";
+import StoreManagerPrivateRoute from "./components/private-route/StoreManagerPrivateRoute";
 
 import "./App.css";
 
@@ -41,6 +46,13 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
+            <Switch>
+              <AdminPrivateRoute exact path="/adminDashboard" component={adminDashboard} />
+            </Switch>
+            <Switch>
+              <StoreManagerPrivateRoute exact path="/storeManagerDashboard" component={storeManagerDashboard} />
+            </Switch>
+
           </div>
         </Router>
       </Provider>
