@@ -31,3 +31,9 @@ exports.deleteCart =async (req, res) => {
 
     const cart = await services.deleteCart(req.params.id, req.body, res);
 };
+
+// Find a single Cart with a user_id
+module.exports.findCartByUserID =async (req, res) => {
+
+    const cart = await services.findCartByUserID(req.params.id, req.body, res);
+};

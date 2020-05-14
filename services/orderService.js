@@ -19,8 +19,6 @@ module.exports.findAllOrders =async (body,res) => {
 //Create New Order
 module.exports.createOrder =async (body, res) => {
 
-    let carts = JSON.parse(body.carts);
-
     // Create a new Order
     const order = new Order({
         name: body.name,
@@ -28,7 +26,7 @@ module.exports.createOrder =async (body, res) => {
         status: body.status,
         payment_type: body.payment_type,
         user_id: body.user_id ? body.user_id : "",
-        carts: carts
+        carts: body.carts
     });
 
     // Save order in the database
@@ -69,8 +67,6 @@ module.exports.findOrderByID =async (id, body,res) => {
 //Update an Order
 module.exports.updateOrder =async (id, body,res) => {
 
-    let carts = JSON.parse(body.carts);
-
     // Find order and update it with the request body
     Order.findByIdAndUpdate(id, {
         name: body.name,
@@ -78,7 +74,7 @@ module.exports.updateOrder =async (id, body,res) => {
         status: body.status,
         payment_type: body.payment_type,
         user_id: body.user_id ? body.user_id : "",
-        carts: carts
+        carts: body.carts
     }, {new: true})
         .then(order => {
             if(!order) {
