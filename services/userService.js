@@ -23,7 +23,8 @@ module.exports.registerUser =async (body,res) => {
             const newUser = new User({
                 name: body.name,
                 email: body.email,
-                password: body.password
+                password: body.password,
+                userRole: body.userRole
             });
 
             // Hash password before saving in database
@@ -57,7 +58,8 @@ module.exports.login = async(body,res) => {
                 // Create JWT Payload
                 const payload = {
                     id: user.id,
-                    name: user.name
+                    name: user.name,
+                    userRole: user.userRole
                 };
 
                 // Sign token
@@ -81,5 +83,105 @@ module.exports.login = async(body,res) => {
             }
         });
     });
+
+};
+
+//get all users
+module.exports.findAllUsers = async (body,res) => {
+    return User.find()
+        .then(users => res.json(users))
+        .catch(err => console.log(err));
+};
+
+
+//find one user
+module.exports.findUser = async (id,body,res) => {
+
+    return User.findById(id)
+        .then( user => {
+            if ( !user ) {
+                return res.status(404).json({
+                    message: "User not found"
+                })
+            }
+            res.json(user) ;
+        })
+        .catch(err => {
+            if(err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Order not found with id " + id
+                });
+            }
+            return res.status(500).send({
+                message: "Error getting user with id " + id
+            });
+        })
+};
+
+//Update User
+module.exports.updateUser = async (id,body,res) => {
+
+    if (  !body ){
+        return res.status(400).send({
+            message: "Please fill all required fields"
+        });
+    }
+    User.findByIdAndUpdate(id,{
+        name: body.name
+    },
+        {new: true})
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with id " + id
+                })
+            }
+            res.json(user);
+        }).catch(err => {
+            if(err.kind === "ObjectId") {
+                return res.status(404).send({
+                    message: "user not found with id " + id
+                })
+            }
+            return res.status(500).send({
+                message: "Error updating user with id" + id
+            })
+    })
+};
+
+//delete User
+module.exports.deleteUser = async (id,res) => {
+    User.findByIdAndRemove(id)
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with id : " + id
+                })
+            }
+            res.send({message: "User Deleted"});
+        }).catch(err => {
+            if (err.kind === "ObjectId" || err.name === "NotFound"){
+                return res.status(404).send({
+                    message: "User not found with id " + id
+                })
+            }
+    })
+};
+
+module.exports.changePassword = async(id,body,res) => {
+    User.find(id)
+        .then( user => {
+            if ( !user ) {
+                return res.status(404).json({
+                    message: "User not found"
+                })
+            }
+            bcrypt.compare(body.password, user.password).then(isMatch =>{
+                if (isMatch) {
+                    user.password = body.password;
+                }
+
+            })
+        })
 
 }

@@ -8,6 +8,7 @@ const passport = require("passport");
 // Load input validation
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
+const validateUpdateInput = require("../validation/updateUser")
 
 // Load User model
 const User = require("../models/User");
@@ -38,3 +39,30 @@ module.exports.login = async (req,res) => {
         return res.status(400).json(errors);
     }
 };
+
+//Get All Users
+module.exports.findAllUsers = async (req,res) => {
+    const users = await services.findAllUsers(req.body,res);
+
+};
+
+//Find User By Id
+module.exports.findUser = async (req,res) => {
+    const user = await services.findUser(req.params.id,req.body,res);
+
+};
+
+//Update User
+module.exports.updateUser = async (req,res) => {
+    const { errors, isValid } = validateUpdateInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    const user = await services.updateUser(req.params.id,req.body,res);
+
+};
+
+//Delete User
+module.exports.deleteUser = async (req,res) => {
+    const user = await services.deleteUser(req.params.id,res);
+}
