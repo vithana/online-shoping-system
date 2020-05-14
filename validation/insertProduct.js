@@ -28,7 +28,10 @@ module.exports =  function validateInsertProduct (data) {
     }
 
 
-
+    return {
+        erros,
+        isValid: isEmpty(erros)
+    };
 
 
 }
