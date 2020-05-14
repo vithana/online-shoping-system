@@ -19,13 +19,11 @@ module.exports.findAllCartItems =async (body,res) => {
 //Create New cart
 module.exports.createCart =async (body, res) => {
 
-    let products = JSON.parse(body.products);
-
     // Create a new cart
     const cart = new Cart({
         status: body.status,
         user_id: body.user_id ? body.user_id : "",
-        products: products
+        products: body.products
     });
 
     // Save cart in the database
@@ -46,18 +44,18 @@ module.exports.findCartByID =async (id, body,res) => {
         .then(cart => {
             if(!cart) {
                 return res.status(404).send({
-                    message: "Cart not found with id " + id
+                    message: "Cart not found"
                 });
             }
             res.send(cart);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Cart not found with id " + id
+                message: "Cart not found"
             });
         }
         return res.status(500).send({
-            message: "Error getting cart with id " + id
+            message: "Error getting cart"
         });
     });
 
@@ -66,34 +64,27 @@ module.exports.findCartByID =async (id, body,res) => {
 //Update a cart
 module.exports.updateCart =async (id, body,res) => {
 
-    let products;
-
-    if (body.products){
-        products = JSON.parse(body.products);
-    }
-
-
     // Find cart and update it with the request body
     Cart.findByIdAndUpdate(id, {
         status: body.status,
         user_id: body.user_id ? body.user_id : "",
-        products: products? products : ""
+        products: body.products? body.products : ""
     }, {new: true})
         .then(cart => {
             if(!cart) {
                 return res.status(404).send({
-                    message: "Cart not found with id " + id
+                    message: "Cart not found"
                 });
             }
             res.send(cart);
         }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
-                message: "Cart not found with id " + id
+                message: "Cart not found"
             });
         }
         return res.status(500).send({
-            message: "Error updating cart with id " + id
+            message: "Error updating cart"
         });
     });
 };
@@ -105,18 +96,46 @@ module.exports.deleteCart =async (id, body,res) => {
         .then(cart => {
             if(!cart) {
                 return res.status(404).send({
-                    message: "Cart not found with id " + id
+                    message: "Cart not found"
                 });
             }
             res.send({message: "Cart deleted successfully!"});
         }).catch(err => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
-                message: "Cart not found with id " + id
+                message: "Cart not found"
             });
         }
         return res.status(500).send({
-            message: "Could not delete cart with id " + id
+            message: "Could not delete cart"
+        });
+    });
+};
+
+//get cart by user_id
+module.exports.findCartByUserID = async (id, body,res) => {
+
+    let query = {
+        user_id: id,
+        status: body.status,
+    };
+
+    Cart.find(query)
+        .then(cart => {
+            if(!cart) {
+                return res.status(404).send({
+                    message: "Cart not found for this user "
+                });
+            }
+            res.send(cart);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Cart not found for this user"
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting cart for this user"
         });
     });
 };
