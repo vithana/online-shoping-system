@@ -2,21 +2,9 @@ const mongoose = require("mongoose");
 mongoose.set('useFindAndModify', false);
 const Schema = mongoose.Schema;
 
-const OrderSchema = new Schema(
+const CartSchema = new Schema(
     {
-        name: {
-            type: String,
-            required: true
-        },
-        total: {
-            type: Number,
-            required: true
-        },
         status: {
-            type: String,
-            required: true
-        },
-        payment_type: {
             type: String,
             required: true
         },
@@ -24,19 +12,24 @@ const OrderSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "users"
         },
-        carts: [{
-            cart_id: {
+        products: [{
+            product_id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "cart",
+                ref: "product",
                 required: true,
             },
-            total: {
+            qty: {
+                type: Number,
+                required: true,
+            },
+            price:{
                 type: Number,
                 required: true,
             },
         }],
+
     },
     { timestamps: true },
 );
 
-module.exports = Order = mongoose.model("order", OrderSchema);
+module.exports = Cart = mongoose.model("cart", CartSchema);
