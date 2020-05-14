@@ -24,13 +24,13 @@ const OrderSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "users"
         },
-        products: [{
-            product_id: {
+        carts: [{
+            cart_id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "product",
+                ref: "cart",
                 required: true,
             },
-            qty: {
+            total: {
                 type: Number,
                 required: true,
             },
