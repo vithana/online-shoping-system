@@ -16,15 +16,36 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
+
+    if( (this.props.auth.userRole === "admin") && (this.props.auth.isAuthenticated) ){
+      this.props.history.push("/adminDashboard");
+    }
+
+    else if( (this.props.auth.userRole === "storeManager") && (this.props.auth.isAuthenticated) ){
+      this.props.history.push("/storeManagerDashboard");
+    }
+
+    else if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
+
+
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
+    if( (nextProps.auth.userRole === "admin") && (nextProps.auth.isAuthenticated) ){
+      this.props.history.push("/adminDashboard");
+    }
+
+    else if( (nextProps.auth.userRole === "storeManager") && (nextProps.auth.isAuthenticated) ){
+      this.props.history.push("/storeManagerDashboard");
+    }
+
+    else if (nextProps.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
+
+
 
     if (nextProps.errors) {
       this.setState({
