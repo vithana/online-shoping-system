@@ -6,12 +6,13 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const orders = require("./routes/api/orders");
 const product  = require("./routes/api/products");
+const categories = require('./routes/api/categories');
 const review = require("./routes/api/reviews");
 const cart = require("./routes/api/carts");
 
 const app = express();
 
-// Bodyparser middleware
+//Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -43,7 +44,7 @@ app.use("/api/orders", orders);
 app.use("/api/products" , product);
 app.use("/api/carts", cart);
 app.use("/api/reviews", review);
-
+app.use('/api/categories', categories);
 
 const port = process.env.PORT || 5000;
 
