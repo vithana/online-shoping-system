@@ -8,7 +8,8 @@ const passport = require("passport");
 // Load input validation
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
-const validateUpdateInput = require("../validation/updateUser")
+const validateUpdateInput = require("../validation/updateUser");
+const validateUpdatePassword = require("../validation/updatePassword")
 
 // Load User model
 const User = require("../models/User");
@@ -65,4 +66,14 @@ module.exports.updateUser = async (req,res) => {
 //Delete User
 module.exports.deleteUser = async (req,res) => {
     const user = await services.deleteUser(req.params.id,res);
-}
+};
+
+//update password
+module.exports.updatePassword = async (req,res) => {
+    const { errors, isValid } = validateUpdatePassword(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    const user = await services.updatePassword(req.params.id,req.body,res);
+};
