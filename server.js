@@ -12,7 +12,7 @@ const cart = require("./routes/api/carts");
 
 const app = express();
 
-// Bodyparser middleware
+//Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
     extended: false
