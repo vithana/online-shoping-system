@@ -10,7 +10,8 @@ const CartSchema = new Schema(
         },
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users"
+            ref: "users",
+            required: true,
         },
         products: [{
             product_id: {
