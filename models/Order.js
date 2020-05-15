@@ -22,7 +22,8 @@ const OrderSchema = new Schema(
         },
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users"
+            ref: "users",
+            required: true,
         },
         carts: [{
             cart_id: {

@@ -120,7 +120,7 @@ module.exports.findCartByUserID = async (id, body,res) => {
         status: body.status,
     };
 
-    Cart.find(query)
+    Cart.findOne(query)
         .then(cart => {
             if(!cart) {
                 return res.status(404).send({
