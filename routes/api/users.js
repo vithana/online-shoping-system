@@ -65,6 +65,14 @@ router
         controllers.deleteUser
     );
 
+// @route POST api/users/updatePassword/id
+// @desc update the password of the user
+// @access public
+router
+    .route("/updatePassword/:id")
+    .put(
+        controllers.updatePassword
+    );
 
 
 module.exports = router;

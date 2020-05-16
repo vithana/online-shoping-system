@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 const passport = require("passport");
 
+
+const mailer = require("../mail-hub/mailer");
+
 // Load input validation
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
@@ -13,10 +16,9 @@ const validateLoginInput = require("../validation/login");
 const User = require("../models/User");
 
 //Register New User
-module.exports.registerUser =async (body,res) => {
+module.exports.registerUser = async (body,res) => {
 
     User.findOne({ email: body.email }).then(user => {
-
         if (user) {
             return res.status(400).json({ email: "Email already exists" });
         } else {
@@ -34,7 +36,15 @@ module.exports.registerUser =async (body,res) => {
                     newUser.password = hash;
                     newUser
                         .save()
-                        .then(user => res.json(user))
+                        .then(user =>{
+                            try {
+                                mailer.sendNewAccountCreated(newUser.email, newUser.email, body.password);
+                            }
+                            catch (error) {
+                                throw new Error(error);
+                            }
+                            res.json(user);
+                        })
                         .catch(err => console.log(err));
                 });
             });
@@ -168,20 +178,35 @@ module.exports.deleteUser = async (id,res) => {
     })
 };
 
-module.exports.changePassword = async(id,body,res) => {
-    User.find(id)
-        .then( user => {
-            if ( !user ) {
-                return res.status(404).json({
-                    message: "User not found"
-                })
-            }
-            bcrypt.compare(body.password, user.password).then(isMatch =>{
-                if (isMatch) {
-                    user.password = body.password;
+//Update password
+module.exports.updatePassword = async(id,body,res) => {
+
+    let newPassword = body.password;
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+            newPassword = hash;
+            User.findByIdAndUpdate(id,{
+                password:newPassword
+            }, {new: true})
+                .then(user => {
+                    if (!user) {
+                        return res.status(404).send({
+                            message: "User not found with id "
+                        })
+                    }
+                    res.json(user);
+                }).catch(err => {
+                if(err.kind === "ObjectId") {
+                    return res.status(404).send({
+                        message: "user not found with id "
+                    })
                 }
-
+                return res.status(500).send({
+                    message: "Error updating user with id"
+                })
             })
-        })
+        });
+    });
+};
 
-}
