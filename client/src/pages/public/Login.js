@@ -18,15 +18,15 @@ class Login extends Component {
   componentDidMount() {
 
     if( (this.props.auth.userRole === "admin") && (this.props.auth.isAuthenticated) ){
-      this.props.history.push("/adminDashboard");
+      this.props.history.push("/admin");
     }
 
     else if( (this.props.auth.userRole === "storeManager") && (this.props.auth.isAuthenticated) ){
-      this.props.history.push("/storeManagerDashboard");
+      this.props.history.push("/storemanager");
     }
 
     else if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/user");
     }
 
 
@@ -34,15 +34,15 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     if( (nextProps.auth.userRole === "admin") && (nextProps.auth.isAuthenticated) ){
-      this.props.history.push("/adminDashboard");
+      this.props.history.push("/admin");
     }
 
     else if( (nextProps.auth.userRole === "storeManager") && (nextProps.auth.isAuthenticated) ){
-      this.props.history.push("/storeManagerDashboard");
+      this.props.history.push("/storemanager");
     }
 
     else if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/user");
     }
 
 
