@@ -21,8 +21,7 @@ module.exports.createCart =async (body, res) => {
 
     // Create a new cart
     const cart = new Cart({
-        status: body.status,
-        user_id: body.user_id ? body.user_id : "",
+        user_id: body.user_id,
         products: body.products
     });
 
@@ -66,9 +65,8 @@ module.exports.updateCart =async (id, body,res) => {
 
     // Find cart and update it with the request body
     Cart.findByIdAndUpdate(id, {
-        status: body.status,
         user_id: body.user_id ? body.user_id : "",
-        products: body.products? body.products : ""
+        products: body.products
     }, {new: true})
         .then(cart => {
             if(!cart) {
@@ -117,7 +115,6 @@ module.exports.findCartByUserID = async (id, body,res) => {
 
     let query = {
         user_id: id,
-        status: body.status,
     };
 
     Cart.findOne(query)
