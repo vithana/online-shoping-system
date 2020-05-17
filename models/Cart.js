@@ -4,10 +4,6 @@ const Schema = mongoose.Schema;
 
 const CartSchema = new Schema(
     {
-        status: {
-            type: String,
-            required: true
-        },
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "users",
@@ -26,6 +22,10 @@ const CartSchema = new Schema(
             price:{
                 type: Number,
                 required: true,
+            },
+            discount:{
+                type: Number,
+                default: 0,
             },
         }],
 
