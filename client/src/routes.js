@@ -7,27 +7,48 @@ import Register from "./pages/public/Register";
 
 var routes = [
     {
-        path: "/index",
+        path: "",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: AdminDashboard,
-        layout: "/admin"
+        layout: "/admin",
+        sidebar_link: true
     },
 
     {
-        path: "/index",
+        path: "/storemanager",
+        name: "Store Managers",
+        icon: "ni ni-tv-2 text-primary",
+        component: AdminDashboard,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+    {
+        path: "",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: StoreManagerDashboard,
-        layout: "/storemanager"
+        layout: "/storemanager",
+        sidebar_link: true
     },
+
+    // {
+    //     path: "/product/add",
+    //     name: "Add Product",
+    //     icon: "ni ni-tv-2 text-primary",
+    //     component: AddProduct,
+    //     layout: "/storemanager",
+    //     sidebar_link: true
+    // },
 
     {
         path: "/index",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: Dashboard,
-        layout: "/user"
+        layout: "/user",
+        sidebar_link: true
     },
 
     {
@@ -35,7 +56,8 @@ var routes = [
         name: "Login",
         icon: "ni ni-key-25 text-info",
         component: Login,
-        layout: "/public"
+        layout: "/public",
+        sidebar_link: false
     },
 
     {
@@ -43,7 +65,8 @@ var routes = [
         name: "Register",
         icon: "ni ni-circle-08 text-pink",
         component: Register,
-        layout: "/public"
+        layout: "/public",
+        sidebar_link: false
     }
 ];
 export default routes;

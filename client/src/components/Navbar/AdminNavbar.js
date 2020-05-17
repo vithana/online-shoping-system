@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
 // reactstrap components
 import {
     DropdownMenu,
@@ -18,19 +21,27 @@ import {
     Media
 } from "reactstrap";
 
+
 class AdminNavbar extends React.Component {
+    onLogoutClick = e => {
+        e.preventDefault();
+        this.props.logoutUser();
+    };
+
+
     render() {
+        const { user } = this.props.auth;
         return (
             <div className="main-content" ref="mainContent">
                 <>
                     <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
                         <Container fluid>
-                            <Link
+                            <h2
                                 className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
                                 to="/"
                             >
                                 {this.props.NavbarText}
-                            </Link>
+                            </h2>
 
                             <Nav className="align-items-center d-none d-md-flex" navbar>
                                 <UncontrolledDropdown nav>
@@ -44,7 +55,7 @@ class AdminNavbar extends React.Component {
                         </span>
                                             <Media className="ml-2 d-none d-lg-block">
                           <span className="mb-0 text-sm font-weight-bold">
-                            Jessica Jones
+                            {user.name.split(" ")[0]}
                           </span>
                                             </Media>
                                         </Media>
@@ -57,20 +68,10 @@ class AdminNavbar extends React.Component {
                                             <i className="ni ni-single-02" />
                                             <span>My profile</span>
                                         </DropdownItem>
-                                        <DropdownItem to="/admin/user-profile" tag={Link}>
-                                            <i className="ni ni-settings-gear-65" />
-                                            <span>Settings</span>
-                                        </DropdownItem>
-                                        <DropdownItem to="/admin/user-profile" tag={Link}>
-                                            <i className="ni ni-calendar-grid-58" />
-                                            <span>Activity</span>
-                                        </DropdownItem>
-                                        <DropdownItem to="/admin/user-profile" tag={Link}>
-                                            <i className="ni ni-support-16" />
-                                            <span>Support</span>
-                                        </DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                                        <DropdownItem href="#pablo"
+                                                      onClick={this.onLogoutClick}
+                                        >
                                             <i className="ni ni-user-run" />
                                             <span>Logout</span>
                                         </DropdownItem>
@@ -85,4 +86,17 @@ class AdminNavbar extends React.Component {
     }
 }
 
-export default AdminNavbar;
+
+AdminNavbar.propTypes = {
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { logoutUser }
+)(AdminNavbar);

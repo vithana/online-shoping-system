@@ -5,6 +5,22 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import classnames from "classnames";
 
+// reactstrap components
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+  Row,
+  Col
+} from "reactstrap";
+
 class Login extends Component {
   constructor() {
     super();
@@ -73,6 +89,7 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
+
       <div className="container">
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">

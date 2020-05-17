@@ -12,7 +12,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import routes from "../routes";
 
 
-class Admin extends React.Component {
+class User extends React.Component {
     componentDidUpdate(e) {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
@@ -64,4 +64,4 @@ class Admin extends React.Component {
     }
 }
 
-export default Admin;
+export default User;

@@ -1,10 +1,14 @@
 import React , {Component} from "react";
 
+import Header from "../../components/Header/Header";
 class AdminDashboard extends Component{
 
     render() {
         return (
-            <div>Admin Dashboard</div>
+            <>
+                <Header/>
+                <div>Admin Dashboard</div>
+            </>
         )
     }
 

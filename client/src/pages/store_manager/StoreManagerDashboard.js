@@ -1,11 +1,15 @@
 import React,{Component} from "react"
-
+import StoreManagerHeader from "../../components/Header/StoreManagerHeader"
 class StoreManagerDashboard extends Component{
     render() {
         return (
-            <div>
-                <h1>Store Manager Dashboard</h1>
-            </div>
+            <>
+                <StoreManagerHeader/>
+                <div>
+                    <h1>Store Manager Dashboard</h1>
+                </div>
+            </>
+
         )
     }
 }
