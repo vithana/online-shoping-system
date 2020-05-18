@@ -1,13 +1,13 @@
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import StoreManagerDashboard from "./pages/store_manager/StoreManagerDashboard";
 import Dashboard from "./pages/user/Dashboard";
-
+import AllOrders from "./pages/admin/orders/AllOrders";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 
 var routes = [
     {
-        path: "",
+        path: "/",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: AdminDashboard,
@@ -25,6 +25,15 @@ var routes = [
     },
 
     {
+        path: "/orders/all",
+        name: "Orders",
+        icon: "ni ni-cart text-primary",
+        component: AllOrders,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+    {
         path: "",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
@@ -32,15 +41,6 @@ var routes = [
         layout: "/storemanager",
         sidebar_link: true
     },
-
-    // {
-    //     path: "/product/add",
-    //     name: "Add Product",
-    //     icon: "ni ni-tv-2 text-primary",
-    //     component: AddProduct,
-    //     layout: "/storemanager",
-    //     sidebar_link: true
-    // },
 
     {
         path: "/index",
