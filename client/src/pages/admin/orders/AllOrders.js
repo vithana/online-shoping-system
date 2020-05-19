@@ -26,6 +26,7 @@ import {GET_ERRORS} from "../../../actions/types";
 import index from "../../../reducers";
 
 class AllOrders extends Component{
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -38,13 +39,16 @@ class AllOrders extends Component{
     }
 
     componentDidMount() {
+        this._isMounted = true;
         axios
             .get("/api/orders/all")
             .then(res => {
-                this.setState({
-                    isLoaded: true,
-                    orders: res.data
-                });
+                if (this._isMounted){
+                    this.setState({
+                        isLoaded: true,
+                        orders: res.data
+                    });
+                }
             })
             .catch(err =>{
                 this.setState({
@@ -54,14 +58,20 @@ class AllOrders extends Component{
             });
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     loadUserName = (user_id) => {
         axios
             .get("/api/users/getUser/"+user_id)
             .then(res => {
-                this.setState({
-                    isLoaded: true,
-                    user_name: res.data.name
-                });
+                if (this._isMounted){
+                    this.setState({
+                        isLoaded: true,
+                        user_name: res.data.name
+                    });
+                }
             })
             .catch(err =>{
                 this.setState({
@@ -137,23 +147,7 @@ class AllOrders extends Component{
                                                     1
                                                 </PaginationLink>
                                             </PaginationItem>
-                                            <PaginationItem>
-                                                <PaginationLink
-                                                    href="#pablo"
-                                                    onClick={e => e.preventDefault()}
-                                                >
-                                                    2 <span className="sr-only">(current)</span>
-                                                </PaginationLink>
-                                            </PaginationItem>
-                                            <PaginationItem>
-                                                <PaginationLink
-                                                    href="#pablo"
-                                                    onClick={e => e.preventDefault()}
-                                                >
-                                                    3
-                                                </PaginationLink>
-                                            </PaginationItem>
-                                            <PaginationItem>
+                                            <PaginationItem className="disabled">
                                                 <PaginationLink
                                                     href="#pablo"
                                                     onClick={e => e.preventDefault()}
