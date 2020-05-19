@@ -20,6 +20,10 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import AdminPrivateRoute from "./components/private-route/AdminPrivateRoute";
 import StoreManagerPrivateRoute from "./components/private-route/StoreManagerPrivateRoute";
 
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
 import "./assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
