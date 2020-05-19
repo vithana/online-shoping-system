@@ -57,8 +57,8 @@ class App extends Component {
             <Switch>
               <PrivateRoute path="/user" component={UserLayout} />
             </Switch>
-              {/*<Route path="/public" component={PublicLayout} />*/}
-              <Route exact path="/" component={Landing} />
+              <Route exact path="/" component={PublicLayout} />
+              {/*<Route exact path="/" component={Landing} />*/}
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               {/*<Redirect from="/" to="/admin/index" />*/}
