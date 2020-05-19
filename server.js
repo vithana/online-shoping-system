@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const path = require("path")
+const path = require("path");
 
 const users = require("./routes/api/users");
 const orders = require("./routes/api/orders");
@@ -10,6 +10,7 @@ const product  = require("./routes/api/products");
 const categories = require('./routes/api/categories');
 const review = require("./routes/api/reviews");
 const cart = require("./routes/api/carts");
+const wishlist = require('./routes/api/wishlists');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use("/api/products" , product);
 app.use("/api/carts", cart);
 app.use("/api/reviews", review);
 app.use('/api/categories', categories);
+app.use('/api/wishlists', wishlist);
 
 const port = process.env.PORT || 5000;
 
