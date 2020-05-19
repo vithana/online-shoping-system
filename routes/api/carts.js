@@ -48,4 +48,13 @@ router
         controllers.deleteCart,
     );
 
+// @route GET api/carts/user/get/:id
+// @desc Get an carts
+// @access Public
+router
+    .route("/user/get/:id")
+    .get(
+        controllers.findCartByUserID
+    );
+
 module.exports = router;
