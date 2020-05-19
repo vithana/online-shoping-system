@@ -62,13 +62,23 @@ const ProductSchema = new Schema(
             require : false
         },
 
-        // categories: [{
-        //     categories_id: {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "category",
-        //         required: true,
-        //     }
-        // }],
+        productImage : {
+            type : String,
+            require : false
+        },
+
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users"
+        },
+
+        categories: [{
+            categories_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "category",
+                required: true,
+            }
+        }],
 
 
     },

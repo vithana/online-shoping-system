@@ -3,6 +3,8 @@ const express = require("express");
 //Load Model
 const product = require("../models/Product");
 
+
+
 //Read All Product
 const findAllproduct = () => {
 
@@ -23,6 +25,9 @@ const insertProduct = (body) => {
 
 //Plese add code for when i get from ato code by categories
     return new Promise((resolve, reject) => {
+
+        let categories = JSON.parse(body.categories);
+
         const products = {
             productName : body.productName ,
             productDescription : body.productDescription ,
@@ -32,7 +37,10 @@ const insertProduct = (body) => {
             productDiscount : body.productDiscount ,
             productColor : body.productColor ,
             productAvailableSize : body.productAvailableSize,
-            bundle : body.bundle
+            bundle : body.bundle,
+            productImage: body.productImg,
+            user_id: body.user_id ? body.user_id : "",
+            categories : categories
         };
 
         product.create(products, (err, result) => {
@@ -43,14 +51,16 @@ const insertProduct = (body) => {
             }
         });
     });
-
-
 };
 
 //update product
-const updateProduct = (id , body , res) =>{
+const updateProduct = (id, body , res) =>{
 
-    //get categorie here
+   let categories;
+
+    if (body.categories){
+        categories = JSON.parse(body.categories);
+    }
 
     product.findByIdAndUpdate(id , {
         productName : body.productName ,
@@ -61,10 +71,10 @@ const updateProduct = (id , body , res) =>{
         productDiscount : body.productDiscount ,
         productColor : body.productColor ,
         productAvailableSize : body.productAvailableSize,
-        bundle : body.bundle
-
-        //if you want aadd user idc code is here
-        //update categoriy here
+        bundle : body.bundle,
+        productImage : body.productImg,
+        user_id: body.user_id ? body.user_id : "",
+        categories: categories? categories : ""
 
     }, {new : true})
         .then(product => {
@@ -81,7 +91,6 @@ const updateProduct = (id , body , res) =>{
                 message: "Product  not found with id " + id
             });
         }
-
         return res.status(500).send({
             message: "Error updating Product with id " + id
         });
@@ -114,8 +123,6 @@ const findOneproduct =  (id,res) => {
     });
 
 };
-
-
 
 //Delete a Product
 const deleteProduct = (id,res) => {

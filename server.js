@@ -21,6 +21,10 @@ app.use(
 );
 app.use(bodyParser.json());
 
+//public Folder ser as static (file Upload Part)
+app.use(express.static('./public'));
+
+
 // DB Config
 const db = require("./config/keys").mongoURI;
 

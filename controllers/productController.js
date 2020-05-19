@@ -42,7 +42,13 @@ module.exports.insertProduct = async (req, res) => {
     }
 
     try {
-        const product = await productService.insertProduct(req.body);
+
+        const payload = {
+            ...req.body,
+            productImg: req.file.filename
+        };
+
+        const product = await productService.insertProduct(payload);
         res.send(product)
     } catch (error) {
         res.status(400).send(error);
@@ -61,7 +67,12 @@ module.exports.updateProduct =async (req, res) => {
     }
 
     try {
-        const order = await productService.updateProduct(req.params.id, req.body ,res);
+
+        const payload = {
+            ...req.body,
+            productImg : req.file.filename
+        };
+        const order = await productService.updateProduct(req.params.id, payload , res);
 
     }catch (error) {
         res.status(400).send(error);
