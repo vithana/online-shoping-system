@@ -75,8 +75,8 @@ class Register extends Component {
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
-                  value={this.state.name}
                   error={errors.name}
+                  value={this.state.name}
                   id="name"
                   type="text"
                   className={classnames("", {

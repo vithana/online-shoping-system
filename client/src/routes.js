@@ -5,6 +5,9 @@ import Dashboard from "./pages/user/Dashboard";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 
+import userProfile from "./components/UserProfile/userProfile";
+import {registerUser} from "./actions/authActions";
+
 var routes = [
     {
         path: "",
@@ -33,15 +36,6 @@ var routes = [
         sidebar_link: true
     },
 
-    // {
-    //     path: "/product/add",
-    //     name: "Add Product",
-    //     icon: "ni ni-tv-2 text-primary",
-    //     component: AddProduct,
-    //     layout: "/storemanager",
-    //     sidebar_link: true
-    // },
-
     {
         path: "/index",
         name: "Dashboard",
@@ -67,6 +61,15 @@ var routes = [
         component: Register,
         layout: "/public",
         sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/admin",
+        sidebar_link: true
     }
 ];
 export default routes;
