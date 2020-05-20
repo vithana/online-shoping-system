@@ -3,8 +3,6 @@ const express = require("express");
 //Load Model
 const product = require("../models/Product");
 
-
-
 //Read All Product
 const findAllproduct = () => {
 
@@ -18,29 +16,23 @@ const findAllproduct = () => {
         });
 };
 
-
-
 //Insert Product
 const insertProduct = (body) => {
 
-//Plese add code for when i get from ato code by categories
     return new Promise((resolve, reject) => {
-
-        let categories = JSON.parse(body.categories);
 
         const products = {
             productName : body.productName ,
             productDescription : body.productDescription ,
             productPrice : body.productPrice ,
-            shippingPrice : body.shippingPrice ,
             productStockQuantity : body.productStockQuantity ,
             productDiscount : body.productDiscount ,
             productColor : body.productColor ,
             productAvailableSize : body.productAvailableSize,
-            bundle : body.bundle,
             productImage: body.productImg,
+            category_id : body.category_id ? body.category_id : "",
             user_id: body.user_id ? body.user_id : "",
-            categories : categories
+
         };
 
         product.create(products, (err, result) => {
@@ -56,25 +48,17 @@ const insertProduct = (body) => {
 //update product
 const updateProduct = (id, body , res) =>{
 
-   let categories;
-
-    if (body.categories){
-        categories = JSON.parse(body.categories);
-    }
-
     product.findByIdAndUpdate(id , {
         productName : body.productName ,
         productDescription : body.productDescription ,
         productPrice : body.productPrice ,
-        shippingPrice : body.shippingPrice ,
         productStockQuantity : body.productStockQuantity ,
         productDiscount : body.productDiscount ,
         productColor : body.productColor ,
         productAvailableSize : body.productAvailableSize,
-        bundle : body.bundle,
         productImage : body.productImg,
         user_id: body.user_id ? body.user_id : "",
-        categories: categories? categories : ""
+        category_id : body.category_id ? body.category_id : ""
 
     }, {new : true})
         .then(product => {
