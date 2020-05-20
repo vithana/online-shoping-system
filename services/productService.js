@@ -131,10 +131,38 @@ const deleteProduct = (id,res) => {
     });
 };
 
+//Find Product View by Product Manager Id
+const findViewByproductManager = (id , res) => {
+    let query = {
+        user_id : id,
+    };
+
+    product.find(query)
+        .then(product => {
+            if(!product) {
+                return res.status(404).send({
+                    message: "Review not found for this user "
+                });
+            }
+            res.send(product);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found for this user"
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting review for this user"
+        });
+    });
+
+}
+
 module.exports = {
     findAllproduct: () => findAllproduct(),
     deleteProduct: (id,res) => deleteProduct(id,res),
     insertProduct: (body) => insertProduct(body),
     updateProduct: (id, body , res) => updateProduct(id, body , res),
-    findOneproduct: (id , res) => findOneproduct(id , res)
+    findOneproduct: (id , res) => findOneproduct(id , res),
+    findViewByproductManager: (id, res) => findViewByproductManager(id , res)
 };

@@ -73,6 +73,7 @@ module.exports.updateProduct =async (req, res) => {
     }
 };
 
+//Delete Product
 module.exports.deleteProduct =async (req, res) => {
     try {
         const product = await productService.deleteProduct(req.params.id, res);
@@ -80,3 +81,16 @@ module.exports.deleteProduct =async (req, res) => {
         res.status(400).send(error);
     }
 };
+
+//find product View by ID
+module.exports.findViewByProductManager = async (req , res) => {
+
+    try {
+        const product = await productService.findViewByproductManager(req.params.id, res);
+
+    }catch (error) {
+        res.status(400).send(error);
+
+    }
+
+}
