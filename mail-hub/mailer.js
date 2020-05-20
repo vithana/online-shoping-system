@@ -26,3 +26,12 @@ module.exports.sendNewAccountCreated = async (receiver, username, password) => {
         mailTemplates.newAccountCreated(username,password),
     );
 };
+
+module.exports.sendUpdatedPassword = async (receiver, username, password) => {
+    const mailSubject = "Your Password had been recently changed.Please reply to this message if it is not you";
+    return setConfigurationsAndSendEmail(
+        receiver,
+        mailSubject,
+        mailTemplates.newAccountCreated(username,password),
+    );
+};
