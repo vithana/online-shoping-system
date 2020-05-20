@@ -79,6 +79,17 @@ var routes = [
         component: userProfile,
         layout: "/admin",
         sidebar_link: true
-    }
+    },
+
+    {
+        path: "/product",
+        name: "Products",
+        icon: "ni ni-tv-2 text-primary",
+        component: AdminDashboard,
+        layout: "/storemanager",
+        sidebar_link: true
+    },
+
+
 ];
 export default routes;
