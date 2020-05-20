@@ -11,6 +11,9 @@ import LandingHeader from "../components/Header/LandingHeader";
 // import Sidebar from "../components/Sidebar/Sidebar";
 
 import routes from "../routes";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {logoutUser} from "../actions/authActions";
 
 
 class Public extends React.Component {
@@ -23,8 +26,12 @@ class Public extends React.Component {
     render() {
         return (
             <>
-                <LandingNavbar />
-                <LandingHeader />
+                <LandingNavbar
+                    {...this.props}
+                />
+                <LandingHeader
+                    {...this.props}
+                />
                 <div className="main-content" ref="mainContent">
                 </div>
             </>
@@ -32,4 +39,16 @@ class Public extends React.Component {
     }
 }
 
-export default Public;
+Public.propTypes = {
+    logoutUser: PropTypes.func,
+    auth: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { logoutUser }
+)(Public);

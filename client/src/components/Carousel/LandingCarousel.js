@@ -16,19 +16,24 @@ import {
 
 const items = [
     {
-        src: require("../../assets/img/slide1.jpg"),
+        src: require("../../assets/img/slider/slider5.jpeg"),
         altText: "Somewhere",
         caption: "Somewhere"
     },
     {
-        src: require("../../assets/img/slide1.jpg"),
-        altText: "Somewhere else",
-        caption: "Somewhere else"
+        src: require("../../assets/img/slider/slider4.jpeg"),
+        altText: "Somewhere",
+        caption: "Somewhere"
     },
     {
-        src: require("../../assets/img/slide1.jpg"),
-        altText: "Here it is",
-        caption: "Here it is"
+        src: require("../../assets/img/slider/slider3.jpeg"),
+        altText: "Somewhere",
+        caption: "Somewhere"
+    },
+    {
+        src: require("../../assets/img/slider/slider2.jpeg"),
+        altText: "Somewhere",
+        caption: "Somewhere"
     }
 ];
 
@@ -57,7 +62,7 @@ function LandingCarousel() {
     };
     return (
         <>
-            <div className="section mt-5" id="carousel">
+            <div className="section mt-0" id="carousel">
                 <Container fluid className="m-0 p-0">
                     <Row className="m-0 p-0">
                         <Col className="m-0 p-0" md="12">
@@ -67,11 +72,11 @@ function LandingCarousel() {
                                     next={next}
                                     previous={previous}
                                 >
-                                    <CarouselIndicators
-                                        items={items}
-                                        activeIndex={activeIndex}
-                                        onClickHandler={goToIndex}
-                                    />
+                                    {/*<CarouselIndicators*/}
+                                    {/*    items={items}*/}
+                                    {/*    activeIndex={activeIndex}*/}
+                                    {/*    onClickHandler={goToIndex}*/}
+                                    {/*/>*/}
                                     {items.map(item => {
                                         return (
                                             <CarouselItem
@@ -85,7 +90,7 @@ function LandingCarousel() {
 
                                                 <CarouselCaption
                                                     captionText={item.caption}
-                                                    captionHeader=""
+                                                    captionHeader="sdsd"
                                                 />
                                             </CarouselItem>
                                         );
@@ -93,7 +98,7 @@ function LandingCarousel() {
                                     <a
                                         className="left carousel-control carousel-control-prev"
                                         data-slide="prev"
-                                        href="#pablo"
+                                        href="#"
                                         onClick={e => {
                                             e.preventDefault();
                                             previous();
@@ -106,7 +111,7 @@ function LandingCarousel() {
                                     <a
                                         className="right carousel-control carousel-control-next"
                                         data-slide="next"
-                                        href="#pablo"
+                                        href="#"
                                         onClick={e => {
                                             e.preventDefault();
                                             next();

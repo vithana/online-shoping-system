@@ -4,7 +4,7 @@ import Dashboard from "./pages/user/Dashboard";
 import AllOrders from "./pages/admin/orders/AllOrders";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
-
+import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
 
@@ -53,7 +53,14 @@ var routes = [
         layout: "/user",
         sidebar_link: true
     },
-
+    {
+        path: "/orders",
+        name: "Orders",
+        icon: "ni ni-cart text-primary",
+        component: UserOrders,
+        layout: "/user",
+        sidebar_link: true
+    },
     {
         path: "/login",
         name: "Login",
