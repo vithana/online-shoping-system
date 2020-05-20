@@ -51,6 +51,7 @@ router
        productController.insertProduct
     );
 
+
 // @route PUT api/products/update/:id
 // @desc Update an Product
 // @access Public
@@ -70,5 +71,16 @@ router
     .delete(
        productController.deleteProduct
     );
+
+
+// @route GET api/products/productSortByManager
+// @desc Get product sorted by productManager
+// @access Public
+router
+    .route("/productManager/:id")
+    .get(
+        productController.findViewByProductManager
+    );
+
 
 module.exports = router;

@@ -8,7 +8,6 @@ module.exports =  function validateInsertProduct (data) {
     data.productName = !isEmpty(data.productName) ? data.productName : "" ;
     data.productDescription = !isEmpty(data.productDescription) ? data.productDescription : "";
     data.productPrice = !isEmpty(data.productPrice) ? data.productPrice : "";
-    data.shippingPrice = !isEmpty(data.shippingPrice) ? data.shippingPrice : "";
     data.productStockQuantity = !isEmpty(data.productStockQuantity) ? data.productStockQuantity : "";
 
     if(Validator.isEmpty(data.productName)){
@@ -19,9 +18,6 @@ module.exports =  function validateInsertProduct (data) {
     }
     if(Validator.isEmpty(data.productPrice)){
         erros.productPrice = "Product Price field  Required"
-    }
-    if(Validator.isEmpty(data.shippingPrice)){
-        erros.shippingPrice = "Product Shipping Price  field  Required"
     }
     if(Validator.isEmpty(data.productStockQuantity)){
         erros.productStockQuantity = "Product Quantity field  Required"
