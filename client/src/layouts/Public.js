@@ -22,18 +22,34 @@ class Public extends React.Component {
         document.scrollingElement.scrollTop = 0;
         this.refs.mainContent.scrollTop = 0;
     }
-
+    getRoutes = routes => {
+        return routes.map((prop, key) => {
+            if (prop.layout === "/") {
+                return (
+                    <Route
+                        exact path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={key}
+                    />
+                );
+            } else {
+                return null;
+            }
+        });
+    };
     render() {
         return (
             <>
-                <LandingNavbar
-                    {...this.props}
-                />
-                <LandingHeader
-                    {...this.props}
-                />
-                <div className="main-content" ref="mainContent">
-                </div>
+                    <LandingNavbar
+                        {...this.props}
+                    />
+                    <LandingHeader
+                        {...this.props}
+                    />
+                    <Switch>
+
+                        {this.getRoutes(routes)}
+                    </Switch>
             </>
         );
     }

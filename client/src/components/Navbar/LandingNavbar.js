@@ -17,9 +17,8 @@ import {
 
 function LandingNavbar(props) {
     const user = props.auth;
-    console.log(user)
 
-    const [navbarColor, setNavbarColor] = React.useState({webkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
+    const [navbarColor, setNavbarColor] = React.useState({WebkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
     const [navbarFontColor, setNavbarFontColor] = React.useState("text-white");
     const [navbarCollapse, setNavbarCollapse] = React.useState(false);
 
@@ -34,13 +33,13 @@ function LandingNavbar(props) {
                 document.documentElement.scrollTop > 299 ||
                 document.body.scrollTop > 299
             ) {
-                setNavbarColor({webkitTransition: "all .4s", background: "#fff", boxShadow: "0 6px 10px -4px rgba(0,0,0,.15)", fontWeight: 700});
+                setNavbarColor({WebkitTransition: "all .4s", background: "#fff", boxShadow: "0 6px 10px -4px rgba(0,0,0,.15)", fontWeight: 700});
                 setNavbarFontColor("text-dark");
             } else if (
                 document.documentElement.scrollTop < 300 ||
                 document.body.scrollTop < 300
             ) {
-                setNavbarColor({webkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
+                setNavbarColor({WebkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
                 setNavbarFontColor("text-white");
             }
         };
