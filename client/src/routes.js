@@ -4,9 +4,10 @@ import Dashboard from "./pages/user/Dashboard";
 import AllOrders from "./pages/admin/orders/AllOrders";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
-
+import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
+import Landing from "./pages/public/landing/Landing";
 
 var routes = [
     {
@@ -53,7 +54,14 @@ var routes = [
         layout: "/user",
         sidebar_link: true
     },
-
+    {
+        path: "/orders",
+        name: "Orders",
+        icon: "ni ni-cart text-primary",
+        component: UserOrders,
+        layout: "/user",
+        sidebar_link: true
+    },
     {
         path: "/login",
         name: "Login",
@@ -69,6 +77,15 @@ var routes = [
         icon: "ni ni-circle-08 text-pink",
         component: Register,
         layout: "/public",
+        sidebar_link: false
+    },
+
+    {
+        path: "/",
+        name: "Landing",
+        icon: "ni ni-key-25 text-info",
+        component: Landing,
+        layout: "/",
         sidebar_link: false
     },
 
