@@ -1,4 +1,5 @@
 import React , {Component} from "react";
+import _findIndex from "lodash.findindex";
 
 import Header from "../../../components/Header/Header";
 
@@ -34,12 +35,29 @@ class AllOrders extends Component{
             error: null,
             isLoaded: false,
             orders: [],
-            user_name: null
+            user_name: null,
+            defaultModal: false,
+            order_id: null
         };
     }
 
     componentDidMount() {
         this._isMounted = true;
+        this.loadOrders();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    toggleModal = (state, order_id) => {
+        this.setState({
+            [state]: !this.state[state],
+            order_id: order_id
+        });
+    };
+
+    loadOrders = () => {
         axios
             .get("/api/orders/all")
             .then(res => {
@@ -56,11 +74,25 @@ class AllOrders extends Component{
                     err
                 });
             });
-    }
+    };
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+    deleteOrder = (id) =>{
+        axios
+            .delete("/api/orders/delete/" + id)
+            .then(res => {
+                let orders = this.state.orders;
+                let orderIndex = _findIndex(this.state.orders, {id : id});
+
+                orders.splice(orderIndex, 1);
+                this.setState({
+                    orders : orders,
+                });
+                this.toggleModal("notificationModal", null)
+            })
+            .catch(err =>{
+                console.log(err);
+            });
+    };
 
     loadUserName = (user_id) => {
         axios
@@ -98,7 +130,9 @@ class AllOrders extends Component{
                                     <thead className="thead-light">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">User Name </th>
+                                        <th scope="col">Customer Name </th>
+                                        <th scope="col">Billing Address</th>
+                                        <th scope="col">Billing City</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Payment Type</th>
                                         <th scope="col">Status</th>
@@ -115,6 +149,8 @@ class AllOrders extends Component{
                                                             {this.loadUserName(value.user_id)}
                                                             {this.state.user_name}
                                                         </td>
+                                                        <td scope="row">{value.billing_address}</td>
+                                                        <td scope="row">{value.billing_city}</td>
                                                         <td scope="row">{value.total}</td>
                                                         <td scope="row">{value.payment_type}</td>
                                                         <td scope="row">{value.status}</td>
@@ -132,14 +168,9 @@ class AllOrders extends Component{
                                                                 </DropdownToggle>
 
                                                                 <DropdownMenu className="dropdown-menu-arrow" right>
-                                                                    <DropdownItem>
-                                                                        <Button
-                                                                            color="warning"
-                                                                            type="button"
-                                                                            onClick={() => this.toggleModal("notificationModal")}
-                                                                        >
-                                                                            Delete Order
-                                                                        </Button>
+                                                                    <DropdownItem onClick={() => this.toggleModal("notificationModal", value._id)}>
+                                                                            <i className="fa fa-trash text-danger" />&nbsp;Delete Order
+
                                                                     </DropdownItem>
                                                                 </DropdownMenu>
                                                         </UncontrolledDropdown>
@@ -194,18 +225,15 @@ class AllOrders extends Component{
                     className="modal-dialog-centered modal-danger"
                     contentClassName="bg-gradient-danger"
                     isOpen={this.state.notificationModal}
-                    toggle={() => this.toggleModal("notificationModal")}
+                    toggle={() => this.toggleModal("notificationModal", null)}
                 >
                     <div className="modal-header">
-                        <h6 className="modal-title" id="modal-title-notification">
-                            Your attention is required
-                        </h6>
                         <button
                             aria-label="Close"
                             className="close"
                             data-dismiss="modal"
                             type="button"
-                            onClick={() => this.toggleModal("notificationModal")}
+                            onClick={() => this.toggleModal("notificationModal", null)}
                         >
                             <span aria-hidden={true}>×</span>
                         </button>
@@ -213,9 +241,9 @@ class AllOrders extends Component{
                     <div className="modal-body">
                         <div className="py-3 text-center">
                             <i className="ni ni-bell-55 ni-3x" />
-                            <h4 className="heading mt-4">Account Deactivation</h4>
+                            <h4 className="heading mt-4">Delete Order</h4>
                             <p>
-                                You are about to deactivate your account.You will lost your all information.
+                                You are about to delete this order.
                             </p>
                         </div>
                     </div>
@@ -224,17 +252,17 @@ class AllOrders extends Component{
                             className="btn-white"
                             color="default"
                             type="button"
-                            onClick={this.onDeactivateClick}
+                            onClick={() => this.deleteOrder(this.state.order_id)}
 
                         >
-                            Ok, Got it
+                            Confirm
                         </Button>
                         <Button
                             className="text-white ml-auto"
                             color="link"
                             data-dismiss="modal"
                             type="button"
-                            onClick={() => this.toggleModal("notificationModal")}
+                            onClick={() => this.toggleModal("notificationModal", null)}
                         >
                             Close
                         </Button>

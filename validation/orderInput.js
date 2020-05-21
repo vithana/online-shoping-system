@@ -5,16 +5,16 @@ module.exports = function validateCreateOrderInput(data) {
     let errors = {};
 
     // Convert empty fields to an empty string to validator functions
-    data.total = !isEmpty(data.total) ? data.total : "";
+    // data.total = !isEmpty(data.total) ? data.total : "";
     data.status = !isEmpty(data.status) ? data.status : "";
     data.payment_type = !isEmpty(data.payment_type) ? data.payment_type : "";
     data.billing_address = !isEmpty(data.billing_address) ? data.billing_address : "";
     data.billing_city = !isEmpty(data.billing_city) ? data.billing_city : "";
 
     // total checks
-    if (Validator.isEmpty(data.total)) {
-        errors.total = "Total is required";
-    }
+    // if (Validator.isEmpty(data.total)) {
+    //     errors.total = "Total is required";
+    // }
 
     // status checks
     if (Validator.isEmpty(data.status)) {
