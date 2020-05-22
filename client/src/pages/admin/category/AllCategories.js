@@ -124,11 +124,15 @@ class AllCategories extends Component{
         const newCategory = { title : this.state.addCategoryTitle};
 
         axios
-            .post("/api/carts/store/", newCategory)
+            .post("/api/categories/store/", newCategory)
             .then(res => {
                 this.setState({
                     addCategoryTitle : "",
-                    currentCategoryTitle: ""
+                    currentCategoryTitle: "",
+                    categories: [
+                        ...this.state.categories,
+                        res.data
+                    ]
                 });
                 this.toggleModal("addCategoryModal", null)
             })
@@ -142,11 +146,22 @@ class AllCategories extends Component{
         const updateCategory = { title : this.state.editCategoryTitle};
 
         axios
-            .put("/api/carts/update/" + this.state.category_id, updateCategory)
+            .put("/api/categories/update/" + this.state.category_id, updateCategory)
             .then(res => {
+                let categories = this.state.categories;
+                let categoryIndex = _findIndex(this.state.categories, {id : this.state.category_id});
+
+                categories.splice(categoryIndex, 1);
                 this.setState({
                     editCategoryTitle : "",
-                    currentCategoryTitle: ""
+                    currentCategoryTitle: "",
+                    categories: categories
+                });
+                this.setState({
+                    categories: [
+                        ...this.state.categories,
+                        res.data
+                    ]
                 });
                 this.toggleModal("editCategoryModal", null)
             })
@@ -157,7 +172,7 @@ class AllCategories extends Component{
 
     deleteCategory = (id) =>{
         axios
-            .delete("/api/orders/delete/" + id)
+            .delete("/api/categories/delete/" + id)
             .then(res => {
                 let categories = this.state.categories;
                 let categoryIndex = _findIndex(this.state.categories, {id : id});
