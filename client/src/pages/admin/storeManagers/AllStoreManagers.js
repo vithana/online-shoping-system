@@ -67,7 +67,8 @@ class AllStoreManagers extends Component{
             },
             changePassword: "",
             changePasswordConfirm: "",
-            passwordErrors : {}
+            passwordErrors : {},
+            userId: null
         };
     }
 
@@ -80,9 +81,10 @@ class AllStoreManagers extends Component{
         }
     }
 
-    toggleModal = state => {
+    toggleModal = (state,user_id) => {
         this.setState({
-            [state]: !this.state[state]
+            [state]: !this.state[state],
+                user_id: user_id
         });
     };
 
@@ -151,10 +153,11 @@ class AllStoreManagers extends Component{
         axios
             .post("/api/users/register", newUser)
             .then(res => {
+
                 this.setState({
                     users: [
                         ...this.state.users,
-                        newUser
+                        res.data
                     ]
                 });
                 //this.props.history.push("/admin/storemanagers/all");
@@ -249,7 +252,6 @@ class AllStoreManagers extends Component{
                                             <Button
                                                 color="primary"
                                                 href="#pablo"
-                                                type="button"
                                                 onClick={() => this.toggleModal("formModal")}
                                                 size="sm"
                                             >
@@ -404,7 +406,7 @@ class AllStoreManagers extends Component{
                                                             <DropdownMenu className="dropdown-menu-arrow" right>
                                                                 <DropdownItem
 
-                                                                    onClick={() => this.toggleModal("changePasswordModal")}
+                                                                    onClick={() => this.toggleModal("changePasswordModal",value._id)}
 
                                                                 >
                                                                     Update Password
@@ -414,140 +416,10 @@ class AllStoreManagers extends Component{
 
                                                                     //onClick={this.onUserDeleteClick(value._id)}
                                                                     //onClick={ (e) => this.onUserDeleteClick(value._id)}
-                                                                    onClick={() => this.toggleModal("notificationModal")}
+                                                                    onClick={() => this.toggleModal("notificationModal",value._id)}
                                                                 >
                                                                     Delete
                                                                 </DropdownItem>
-
-                                                                <Modal
-                                                                    className="modal-dialog-centered modal-danger"
-                                                                    contentClassName="bg-gradient-danger"
-                                                                    isOpen={this.state.notificationModal}
-                                                                    toggle={() => this.toggleModal("notificationModal")}
-                                                                >
-                                                                    <div className="modal-header">
-                                                                        <h6 className="modal-title" id="modal-title-notification">
-                                                                            Your attention is required
-                                                                        </h6>
-                                                                        <button
-                                                                            aria-label="Close"
-                                                                            className="close"
-                                                                            data-dismiss="modal"
-                                                                            type="button"
-                                                                            onClick={() => this.toggleModal("notificationModal")}
-                                                                        >
-                                                                            <span aria-hidden={true}>×</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div className="modal-body">
-                                                                        <div className="py-3 text-center">
-                                                                            <i className="ni ni-bell-55 ni-3x" />
-                                                                            <h4 className="heading mt-4">You should read this!</h4>
-                                                                            <p>
-                                                                                You are about to delete the user
-                                                                                <h4 className="heading mt-4">{value.name}.</h4>You will lose all the information
-                                                                                of this user
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="modal-footer">
-                                                                        <Button className="btn-white"
-                                                                                color="default"
-                                                                                type="button"
-                                                                                onClick={ (e) => this.onUserDeleteClick(value._id)}
-
-                                                                        >
-                                                                            Ok, Got it
-                                                                        </Button>
-                                                                        <Button
-                                                                            className="text-white ml-auto"
-                                                                            color="link"
-                                                                            data-dismiss="modal"
-                                                                            type="button"
-                                                                            onClick={() => this.toggleModal("notificationModal")}
-                                                                        >
-                                                                            Close
-                                                                        </Button>
-                                                                    </div>
-                                                                </Modal>
-
-                                                                <Modal
-                                                                    className="modal-dialog-centered"
-                                                                    size="sm"
-                                                                    isOpen={this.state.changePasswordModal}
-                                                                    toggle={() => this.toggleModal("changePasswordModal")}
-                                                                >
-                                                                    <div className="modal-body p-0">
-                                                                        <Card className="bg-secondary shadow border-0">
-
-                                                                            <CardBody className="px-lg-5 py-lg-5">
-                                                                                <div className="text-center text-muted mb-4">
-                                                                                    <small>Update Password</small>
-                                                                                </div>
-                                                                                <Form role="form">
-                                                                                    <FormGroup>
-                                                                                        <InputGroup className="input-group-alternative">
-                                                                                            <InputGroupAddon addonType="prepend">
-                                                                                                <InputGroupText>
-                                                                                                    <i className="ni ni-lock-circle-open" />
-                                                                                                </InputGroupText>
-                                                                                            </InputGroupAddon>
-                                                                                            <Input placeholder="Password"
-                                                                                                   onChange={this.onChange}
-                                                                                                   value={this.state.changePassword}
-                                                                                                // error={errors.password}
-                                                                                                   id="changePassword"
-                                                                                                   type="password"
-                                                                                            />
-
-                                                                                        </InputGroup>
-                                                                                        <span className="text-red">{this.state.passwordErrors.password}</span>
-
-
-                                                                                    </FormGroup>
-                                                                                    <FormGroup>
-                                                                                        <InputGroup className="input-group-alternative">
-                                                                                            <InputGroupAddon addonType="prepend">
-                                                                                                <InputGroupText>
-                                                                                                    <i className="ni ni-lock-circle-open" />
-                                                                                                </InputGroupText>
-                                                                                            </InputGroupAddon>
-                                                                                            <Input placeholder="Confirm Password"
-                                                                                                   onChange={this.onChange}
-                                                                                                   value={this.state.changePasswordConfirm}
-                                                                                                //error={errors.password2}
-                                                                                                   id="changePasswordConfirm"
-                                                                                                   type="password"
-                                                                                            />
-
-                                                                                        </InputGroup>
-                                                                                        <span className="text-red">{this.state.passwordErrors.password2}</span>
-
-
-                                                                                        {/*<span className="text-red">{this.state.errors1.password2}</span>*/}
-
-
-                                                                                    </FormGroup>
-                                                                                    <div className="text-center">
-                                                                                        <Button
-                                                                                            className="my-4"
-                                                                                            color="primary"
-                                                                                            type="button"
-                                                                                            data-dismiss="modal"
-                                                                                            onClick={(e) =>  this.onPasswordUpdate(value._id)}
-
-                                                                                        >
-                                                                                            Update Password
-                                                                                        </Button>
-                                                                                    </div>
-                                                                                </Form>
-                                                                            </CardBody>
-                                                                        </Card>
-                                                                    </div>
-                                                                </Modal>
-
-
-
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </td>
@@ -598,6 +470,131 @@ class AllStoreManagers extends Component{
                         </div>
                     </Row>
                 </Container>
+
+                <Modal
+                    className="modal-dialog-centered modal-danger"
+                    contentClassName="bg-gradient-danger"
+                    isOpen={this.state.notificationModal}
+                    toggle={() => this.toggleModal("notificationModal",null)}
+                >
+                    <div className="modal-header">
+                        <h6 className="modal-title" id="modal-title-notification">
+                            Your attention is required
+                        </h6>
+                        <button
+                            aria-label="Close"
+                            className="close"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={() => this.toggleModal("notificationModal",null)}
+                        >
+                            <span aria-hidden={true}>×</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="py-3 text-center">
+                            <i className="ni ni-bell-55 ni-3x" />
+                            <h4 className="heading mt-4">You should read this!</h4>
+                            <p>
+                                You are about to delete the user
+                                You will lose all the information
+                                of this user
+                            </p>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <Button className="btn-white"
+                                color="default"
+                                type="button"
+                                onClick={ (e) => this.onUserDeleteClick(this.state.user_id)}
+
+                        >
+                            Ok, Got it
+                        </Button>
+                        <Button
+                            className="text-white ml-auto"
+                            color="link"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={() => this.toggleModal("notificationModal",null)}
+                        >
+                            Close
+                        </Button>
+                    </div>
+                </Modal>
+
+                <Modal
+                    className="modal-dialog-centered"
+                    size="sm"
+                    isOpen={this.state.changePasswordModal}
+                    toggle={() => this.toggleModal("changePasswordModal",null)}
+                >
+                    <div className="modal-body p-0">
+                        <Card className="bg-secondary shadow border-0">
+
+                            <CardBody className="px-lg-5 py-lg-5">
+                                <div className="text-center text-muted mb-4">
+                                    <small>Update Password</small>
+                                </div>
+                                <Form role="form">
+                                    <FormGroup>
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="ni ni-lock-circle-open" />
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Password"
+                                                   onChange={this.onChange}
+                                                   value={this.state.changePassword}
+                                                // error={errors.password}
+                                                   id="changePassword"
+                                                   type="password"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{this.state.passwordErrors.password}</span>
+
+
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="ni ni-lock-circle-open" />
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Confirm Password"
+                                                   onChange={this.onChange}
+                                                   value={this.state.changePasswordConfirm}
+                                                //error={errors.password2}
+                                                   id="changePasswordConfirm"
+                                                   type="password"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{this.state.passwordErrors.password2}</span>
+
+
+
+                                    </FormGroup>
+                                    <div className="text-center">
+                                        <Button
+                                            className="my-4"
+                                            color="primary"
+                                            type="button"
+                                            data-dismiss="modal"
+                                            onClick={(e) =>  this.onPasswordUpdate(this.state.user_id)}
+
+                                        >
+                                            Update Password
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </CardBody>
+                        </Card>
+                    </div>
+                </Modal>
             </>
         )
     }

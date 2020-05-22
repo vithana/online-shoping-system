@@ -122,7 +122,7 @@ var routes = [
     {
         path: "/users/all",
         name: "Users",
-        icon: "ni ni-cart text-primary",
+        icon: "fas fa-users text-primary",
         component: AllUsers,
         layout: "/admin",
         sidebar_link: true
@@ -131,7 +131,7 @@ var routes = [
     {
         path: "/storeManagers/all",
         name: "StoreManagers",
-        icon: "ni ni-cart text-primary",
+        icon: "fas fa-chalkboard-teacher text-primary",
         component: AllStoreManagers,
         layout: "/admin",
         sidebar_link: true
