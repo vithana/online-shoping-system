@@ -48,4 +48,13 @@ router
         controllers.deleteOrder,
     );
 
+// @route GET api/orders/user/get/:id
+// @desc Get orders
+// @access Public
+router
+    .route("/user/get/:id")
+    .get(
+        controllers.findOrdersByUserID
+    );
+
 module.exports = router;

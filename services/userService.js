@@ -38,7 +38,10 @@ module.exports.registerUser = async (body,res) => {
                         .save()
                         .then(user =>{
                             try {
-                                mailer.sendNewAccountCreated(newUser.email, newUser.email, body.password);
+                                if(newUser.userRole === 'storeManager'){
+                                    mailer.sendNewAccountCreated(newUser.email, newUser.email, body.password);
+
+                                }
                             }
                             catch (error) {
                                 throw new Error(error);
@@ -69,7 +72,12 @@ module.exports.login = async(body,res) => {
                 const payload = {
                     id: user.id,
                     name: user.name,
-                    userRole: user.userRole
+                    email: user.email,
+                    userRole: user.userRole,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    address: user.address,
+                    city: user.city,
                 };
 
                 // Sign token
@@ -137,7 +145,11 @@ module.exports.updateUser = async (id,body,res) => {
         });
     }
     User.findByIdAndUpdate(id,{
-        name: body.name
+        name: body.name,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        address: body.address,
+        city: body.city
     },
         {new: true})
         .then(user => {
@@ -190,6 +202,14 @@ module.exports.updatePassword = async(id,body,res) => {
                 password:newPassword
             }, {new: true})
                 .then(user => {
+
+                    try {
+                        mailer.sendUpdatedPassword(user.email, user.email, body.password);
+                    }
+                    catch (error) {
+                        throw new Error(error);
+                    }
+
                     if (!user) {
                         return res.status(404).send({
                             message: "User not found with id "

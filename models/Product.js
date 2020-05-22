@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 //create Schema
 const ProductSchema = new Schema(
     {
-
         productName : {
             type : String ,
             require : true
@@ -19,58 +18,42 @@ const ProductSchema = new Schema(
         productPrice :  {
             type : Number,
             require : true
-
-        },
-
-        shippingPrice : {
-            type : Number ,
-            require : false
-
         },
 
         productStockQuantity : {
-
             type : Number ,
             require : false
-
         },
 
         productDiscount : {
-
             type : Number ,
             require : false
         },
 
-
         productColor : {
-
             type :String ,
             require : false
         },
 
-        //Is product in cloth
         productAvailableSize : {
-
-            type : String,
-            require : false
-
-        },
-
-        //Is product in technical Item
-        bundle : {
             type : String,
             require : false
         },
 
-        // categories: [{
-        //     categories_id: {
-        //         type: mongoose.Schema.Types.ObjectId,
-        //         ref: "category",
-        //         required: true,
-        //     }
-        // }],
+        productImage : {
+            type : String,
+            require : false
+        },
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users"
 
+        },
+        category_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category"
 
+        },
     },
 
 { timestamps: true },

@@ -1,7 +1,26 @@
 const express = require("express");
-const router = express.Router()
+const router = express.Router();
+const multer = require('multer');
+const path = require('path');
 
 const productController = require("../../controllers/productController");
+
+//Image Upload ====================================
+
+//Set Storage
+const storage = multer.diskStorage({
+    destination : './public/uploads',
+    filename : function (req , file , cb) {
+        cb(null , file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+//Create Upload variable
+const upload = multer({
+    storage : storage
+});
+
+//===================================================
 
 // @route GET api/products/allproducts
 // @desc Get All Products
@@ -28,8 +47,10 @@ router
 router
     .route("/insert")
     .post(
+       upload.single("productImg"),
        productController.insertProduct
     );
+
 
 // @route PUT api/products/update/:id
 // @desc Update an Product
@@ -37,6 +58,7 @@ router
 router
     .route("/update/:id")
     .put(
+        upload.single("productImg"),
         productController.updateProduct
     );
 
@@ -49,5 +71,16 @@ router
     .delete(
        productController.deleteProduct
     );
+
+
+// @route GET api/products/productSortByManager
+// @desc Get product sorted by productManager
+// @access Public
+router
+    .route("/productManager/:id")
+    .get(
+        productController.findViewByProductManager
+    );
+
 
 module.exports = router;

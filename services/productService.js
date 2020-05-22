@@ -16,23 +16,23 @@ const findAllproduct = () => {
         });
 };
 
-
-
 //Insert Product
 const insertProduct = (body) => {
 
-//Plese add code for when i get from ato code by categories
     return new Promise((resolve, reject) => {
+
         const products = {
             productName : body.productName ,
             productDescription : body.productDescription ,
             productPrice : body.productPrice ,
-            shippingPrice : body.shippingPrice ,
             productStockQuantity : body.productStockQuantity ,
             productDiscount : body.productDiscount ,
             productColor : body.productColor ,
             productAvailableSize : body.productAvailableSize,
-            bundle : body.bundle
+            productImage: body.productImg,
+            category_id : body.category_id ? body.category_id : "",
+            user_id: body.user_id ? body.user_id : "",
+
         };
 
         product.create(products, (err, result) => {
@@ -43,28 +43,22 @@ const insertProduct = (body) => {
             }
         });
     });
-
-
 };
 
 //update product
-const updateProduct = (id , body , res) =>{
-
-    //get categorie here
+const updateProduct = (id, body , res) =>{
 
     product.findByIdAndUpdate(id , {
         productName : body.productName ,
         productDescription : body.productDescription ,
         productPrice : body.productPrice ,
-        shippingPrice : body.shippingPrice ,
         productStockQuantity : body.productStockQuantity ,
         productDiscount : body.productDiscount ,
         productColor : body.productColor ,
         productAvailableSize : body.productAvailableSize,
-        bundle : body.bundle
-
-        //if you want aadd user idc code is here
-        //update categoriy here
+        productImage : body.productImg,
+        user_id: body.user_id ? body.user_id : "",
+        category_id : body.category_id ? body.category_id : ""
 
     }, {new : true})
         .then(product => {
@@ -81,7 +75,6 @@ const updateProduct = (id , body , res) =>{
                 message: "Product  not found with id " + id
             });
         }
-
         return res.status(500).send({
             message: "Error updating Product with id " + id
         });
@@ -115,8 +108,6 @@ const findOneproduct =  (id,res) => {
 
 };
 
-
-
 //Delete a Product
 const deleteProduct = (id,res) => {
 
@@ -140,10 +131,38 @@ const deleteProduct = (id,res) => {
     });
 };
 
+//Find Product View by Product Manager Id
+const findViewByproductManager = (id , res) => {
+    let query = {
+        user_id : id,
+    };
+
+    product.find(query)
+        .then(product => {
+            if(!product) {
+                return res.status(404).send({
+                    message: "Review not found for this user "
+                });
+            }
+            res.send(product);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found for this user"
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting review for this user"
+        });
+    });
+
+}
+
 module.exports = {
     findAllproduct: () => findAllproduct(),
     deleteProduct: (id,res) => deleteProduct(id,res),
     insertProduct: (body) => insertProduct(body),
     updateProduct: (id, body , res) => updateProduct(id, body , res),
-    findOneproduct: (id , res) => findOneproduct(id , res)
+    findOneproduct: (id , res) => findOneproduct(id , res),
+    findViewByproductManager: (id, res) => findViewByproductManager(id , res)
 };
