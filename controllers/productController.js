@@ -7,7 +7,6 @@ const productService = require("../services/productService")
 
 //Find All product
 module.exports.findAllProducts = async (req , res) => {
-
     try {
         const products = await productService.findAllproduct();
         res.send(products)
@@ -19,7 +18,6 @@ module.exports.findAllProducts = async (req , res) => {
 
 //Find one Product
 module.exports.findOneProduct =async (req, res) => {
-
     try {
         const product = await productService.findOneproduct(req.params.id, res);
 
@@ -28,7 +26,6 @@ module.exports.findOneProduct =async (req, res) => {
 
     }
 };
-
 
 //Create and Save Product
 module.exports.insertProduct = async (req, res) => {
@@ -40,34 +37,31 @@ module.exports.insertProduct = async (req, res) => {
     if(!isValid) {
         return res.status(400).json(errors);
     }
-
     try {
-
         const payload = {
             ...req.body,
             productImg: req.file.filename
         };
 
         const product = await productService.insertProduct(payload);
-        res.send(product)
+        res.send(product);
+
     } catch (error) {
         res.status(400).send(error);
     }
 };
+
 
 // Update an Order identified by the id in the request
 module.exports.updateProduct =async (req, res) => {
 
     //Validation
     const { errors, isValid } = validateInsertProduct(req.body);
-
     // Check validation
     if (!isValid) {
         return res.status(400).json(errors);
     }
-
     try {
-
         const payload = {
             ...req.body,
             productImg : req.file.filename
@@ -79,12 +73,24 @@ module.exports.updateProduct =async (req, res) => {
     }
 };
 
+//Delete Product
 module.exports.deleteProduct =async (req, res) => {
-
     try {
         const product = await productService.deleteProduct(req.params.id, res);
-
     }catch (error) {
         res.status(400).send(error);
     }
 };
+
+//find product View by ID
+module.exports.findViewByProductManager = async (req , res) => {
+
+    try {
+        const product = await productService.findViewByproductManager(req.params.id, res);
+
+    }catch (error) {
+        res.status(400).send(error);
+
+    }
+
+}

@@ -52,3 +52,8 @@ exports.deleteOrder =async (req, res) => {
     const order = await services.deleteOrder(req.params.id, req.body, res);
 };
 
+// Find Orders with a user_id
+module.exports.findOrdersByUserID =async (req, res) => {
+
+    const order = await services.findOrdersByUserID(req.params.id, req.body, res);
+};
