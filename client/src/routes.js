@@ -8,6 +8,7 @@ import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
 import Landing from "./pages/public/landing/Landing";
+import AllCategories from "./pages/admin/category/AllCategories";
 
 var routes = [
     {
@@ -33,6 +34,15 @@ var routes = [
         name: "Orders",
         icon: "ni ni-cart text-primary",
         component: AllOrders,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+    {
+        path: "/categories/all",
+        name: "Product Categories",
+        icon: "fa fa-list text-primary",
+        component: AllCategories,
         layout: "/admin",
         sidebar_link: true
     },

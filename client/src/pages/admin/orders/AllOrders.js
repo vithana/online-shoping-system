@@ -285,6 +285,8 @@ class AllOrders extends Component{
                         </div>
                     </Row>
                 </Container>
+
+                {/*delete Modal*/}
                 <Modal
                     className="modal-dialog-centered modal-danger"
                     contentClassName="bg-gradient-danger"
@@ -332,6 +334,8 @@ class AllOrders extends Component{
                         </Button>
                     </div>
                 </Modal>
+
+
             </>
         )
     }
