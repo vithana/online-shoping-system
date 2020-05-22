@@ -203,7 +203,7 @@ class AllOrders extends Component{
                                                         </td>
                                                         <td scope="row">{value.billing_address}</td>
                                                         <td scope="row">{value.billing_city}</td>
-                                                        <td scope="row">{value._id}</td>
+                                                        <td scope="row">{value.total}</td>
                                                         <td scope="row">{value.payment_type}</td>
                                                         <td scope="row">{value.status}</td>
                                                         <td scope="row">

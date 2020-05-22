@@ -25,6 +25,7 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import {connect} from "react-redux";
+import _findIndex from "lodash.findindex";
 
 class UserOrders extends Component{
     _isMounted = false;
@@ -34,8 +35,7 @@ class UserOrders extends Component{
         this.state = {
             error: null,
             isLoaded: false,
-            orders: [],
-            user_name: null
+            orders: []
         };
     }
 
@@ -63,6 +63,40 @@ class UserOrders extends Component{
         this._isMounted = false;
     }
 
+    changeStatus = (order) => {
+        const updatedOrder = {
+            total:order.total,
+            status:"Complete",
+            payment_type:order.payment_type,
+            user_id:order.user_id,
+            products: order.products,
+            billing_address:order.billing_address,
+            billing_city: order.billing_city
+        };
+
+        axios
+            .put("/api/orders/update/" + order._id, updatedOrder)
+            .then(res => {
+                let orders = this.state.orders;
+                let orderIndex = _findIndex(this.state.orders, {_id : order._id});
+
+                orders.splice(orderIndex, 1);
+                this.setState({
+                    orders : orders,
+                });
+
+                this.setState({
+                    orders: [
+                        ...this.state.orders,
+                        res.data
+                    ]
+                });
+            })
+            .catch(err =>{
+                console.log(err);
+            });
+    };
+
     render() {
         return (
             <>
@@ -80,9 +114,12 @@ class UserOrders extends Component{
                                     <thead className="thead-light">
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">Billing Address</th>
+                                        <th scope="col">Billing City</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Payment Type</th>
                                         <th scope="col">Status</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -91,9 +128,39 @@ class UserOrders extends Component{
                                                 return (
                                                     <tr key={value._id}>
                                                         <td scope="row">{index+1}</td>
+                                                        <td scope="row">{value.billing_address}</td>
+                                                        <td scope="row">{value.billing_city}</td>
                                                         <td scope="row">{value.total}</td>
                                                         <td scope="row">{value.payment_type}</td>
                                                         <td scope="row">{value.status}</td>
+                                                        <td scope="row">
+                                                            <UncontrolledDropdown>
+                                                                <DropdownToggle
+                                                                    className="btn-icon-only text-light"
+                                                                    href="#"
+                                                                    role="button"
+                                                                    size="sm"
+                                                                    color=""
+                                                                    onClick={e => e.preventDefault()}
+                                                                >
+                                                                    <i className="fas fa-ellipsis-v" />
+                                                                </DropdownToggle>
+
+                                                                <DropdownMenu className="dropdown-menu-arrow" right>
+                                                                    {
+                                                                        (value.status != "Complete") ? (
+                                                                            (
+                                                                                <DropdownItem onClick={() => this.changeStatus(value)}>
+                                                                                    <i className="fa fa-check-circle text-success" />&nbsp;
+                                                                                    Confirm Order Received
+                                                                                </DropdownItem>
+                                                                            )
+                                                                        ):null
+                                                                    }
+
+                                                                </DropdownMenu>
+                                                            </UncontrolledDropdown>
+                                                        </td>
                                                     </tr>
                                                 )
                                             })
