@@ -179,7 +179,7 @@ class userProfile extends React.Component {
                                                             className="form-control-label"
                                                             htmlFor="input-username"
                                                         >
-                                                            Username
+                                                            Full Name
                                                         </label>
                                                         <Input
                                                             onChange={this.onChange}
@@ -219,47 +219,47 @@ class userProfile extends React.Component {
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
-                                            <Row>
-                                                <Col lg="6">
-                                                    <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-first-name"
-                                                        >
-                                                            First name
-                                                        </label>
-                                                        <Input
-                                                            onChange={this.onChange}
-                                                            // error={errors.name}
-                                                            className="form-control-alternative"
-                                                            id="firstName"
-                                                            placeholder="First name"
-                                                            type="text"
-                                                            value= {this.state.firstName}
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                                <Col lg="6">
-                                                    <FormGroup>
-                                                        <label
-                                                            className="form-control-label"
-                                                            htmlFor="input-last-name"
-                                                        >
-                                                            Last name
-                                                        </label>
-                                                        <Input
-                                                            onChange={this.onChange}
-                                                            // error={errors.name}
-                                                            className="form-control-alternative"
-                                                            id="lastName"
-                                                            placeholder="Last name"
-                                                            type="text"
-                                                            value= {this.state.lastName}
+                                            {/*<Row>*/}
+                                            {/*    <Col lg="6">*/}
+                                            {/*        <FormGroup>*/}
+                                            {/*            <label*/}
+                                            {/*                className="form-control-label"*/}
+                                            {/*                htmlFor="input-first-name"*/}
+                                            {/*            >*/}
+                                            {/*                First name*/}
+                                            {/*            </label>*/}
+                                            {/*            <Input*/}
+                                            {/*                onChange={this.onChange}*/}
+                                            {/*                // error={errors.name}*/}
+                                            {/*                className="form-control-alternative"*/}
+                                            {/*                id="firstName"*/}
+                                            {/*                placeholder="First name"*/}
+                                            {/*                type="text"*/}
+                                            {/*                value= {this.state.firstName}*/}
+                                            {/*            />*/}
+                                            {/*        </FormGroup>*/}
+                                            {/*    </Col>*/}
+                                            {/*    <Col lg="6">*/}
+                                            {/*        <FormGroup>*/}
+                                            {/*            <label*/}
+                                            {/*                className="form-control-label"*/}
+                                            {/*                htmlFor="input-last-name"*/}
+                                            {/*            >*/}
+                                            {/*                Last name*/}
+                                            {/*            </label>*/}
+                                            {/*            <Input*/}
+                                            {/*                onChange={this.onChange}*/}
+                                            {/*                // error={errors.name}*/}
+                                            {/*                className="form-control-alternative"*/}
+                                            {/*                id="lastName"*/}
+                                            {/*                placeholder="Last name"*/}
+                                            {/*                type="text"*/}
+                                            {/*                value= {this.state.lastName}*/}
 
-                                                        />
-                                                    </FormGroup>
-                                                </Col>
-                                            </Row>
+                                            {/*            />*/}
+                                            {/*        </FormGroup>*/}
+                                            {/*    </Col>*/}
+                                            {/*</Row>*/}
                                         </div>
                                         <hr className="my-4" />
                                         {/* Address */}

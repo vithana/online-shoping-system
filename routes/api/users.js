@@ -74,5 +74,15 @@ router
         controllers.updatePassword
     );
 
+// @route POST api/users/findUserByRole
+// @get users according to user role
+// @access private
+router
+    .route("/findUsersByRole")
+    .post(
+        controllers.findUsersByRole
+    );
+
+
 
 module.exports = router;

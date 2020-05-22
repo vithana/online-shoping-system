@@ -77,3 +77,10 @@ module.exports.updatePassword = async (req,res) => {
 
     const user = await services.updatePassword(req.params.id,req.body,res);
 };
+
+
+//Get users according to user role
+module.exports.findUsersByRole = async (req,res) => {
+    const users = await services.findUsersByRole(req.body,res);
+
+};

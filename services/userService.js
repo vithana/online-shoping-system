@@ -26,7 +26,7 @@ module.exports.registerUser = async (body,res) => {
                 name: body.name,
                 email: body.email,
                 password: body.password,
-                userRole: body.userRole
+                userRole: body.userRole,
             });
 
             // Hash password before saving in database
@@ -229,4 +229,28 @@ module.exports.updatePassword = async(id,body,res) => {
         });
     });
 };
+
+
+//Get users according to user role
+module.exports.findUsersByRole = async (body,res) => {
+
+    let query = {
+        userRole: body.userRole,
+    };
+
+    User.find(query)
+        .then(users => {
+            if(!users) {
+                return res.status(404).send({
+                    message: "users not found for user role"
+                });
+            }
+            res.send(users);
+        }).catch(err => {
+        return res.status(500).send({
+            message: "Error getting users for this user role"
+        });
+    });
+};
+
 
