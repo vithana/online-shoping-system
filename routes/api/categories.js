@@ -44,7 +44,7 @@ router
 //@Desc     Update a particular category
 //@Access   Public
 router
-    .route('/update/:id')
+        .route('/update/:id')
     .put(
       categoryController.updateCategory
     );

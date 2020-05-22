@@ -35,7 +35,7 @@ class AllOrders extends Component{
             error: null,
             isLoaded: false,
             orders: [],
-            user_name: null,
+            user_name: [],
             defaultModal: false,
             order_id: null
         };
@@ -66,6 +66,7 @@ class AllOrders extends Component{
                         isLoaded: true,
                         orders: res.data
                     });
+                    this.loadUserName(res.data);
                 }
             })
             .catch(err =>{
@@ -81,36 +82,80 @@ class AllOrders extends Component{
             .delete("/api/orders/delete/" + id)
             .then(res => {
                 let orders = this.state.orders;
-                let orderIndex = _findIndex(this.state.orders, {id : id});
+                let orderIndex = _findIndex(this.state.orders, {_id : id});
 
                 orders.splice(orderIndex, 1);
                 this.setState({
                     orders : orders,
                 });
-                this.toggleModal("notificationModal", null)
+                this.toggleModal("notificationModal", null);
             })
             .catch(err =>{
                 console.log(err);
             });
     };
 
-    loadUserName = (user_id) => {
+    changeStatus = (order) => {
+        const updatedOrder = {
+            total:order.total,
+            status:"Complete",
+            payment_type:order.payment_type,
+            user_id:order.user_id,
+            products: order.products,
+            billing_address:order.billing_address,
+            billing_city: order.billing_city
+        }
+
         axios
-            .get("/api/users/getUser/"+user_id)
+            .put("/api/orders/update/" + order._id, updatedOrder)
             .then(res => {
-                if (this._isMounted){
-                    this.setState({
-                        isLoaded: true,
-                        user_name: res.data.name
-                    });
-                }
+                let orders = this.state.orders;
+                let orderIndex = _findIndex(this.state.orders, {_id : order._id});
+
+                orders.splice(orderIndex, 1);
+                this.setState({
+                    orders : orders,
+                });
+
+                this.setState({
+                    orders: [
+                        ...this.state.orders,
+                        res.data
+                    ]
+                });
             })
             .catch(err =>{
-                this.setState({
-                    isLoaded: true,
-                    err
-                });
+                console.log(err);
             });
+    };
+
+    loadUserName = (orders) => {
+
+        orders.map((value, index) =>{
+            axios
+                .get("/api/users/getUser/" + value.user_id)
+                .then(res => {
+                    if (this._isMounted){
+                        const UserName = {
+                            order_id: value._id,
+                            name: res.data.name
+                        };
+                        this.setState({
+                            isLoaded: true,
+                            user_name: [
+                                ...this.state.user_name,
+                                UserName
+                            ]
+                        });
+                    }
+                })
+                .catch(err =>{
+                    this.setState({
+                        isLoaded: true,
+                        err
+                    });
+                });
+        });
     };
 
     render() {
@@ -146,12 +191,19 @@ class AllOrders extends Component{
                                                     <tr key={value._id}>
                                                         <td scope="row">{index+1}</td>
                                                         <td scope="row">
-                                                            {this.loadUserName(value.user_id)}
-                                                            {this.state.user_name}
+                                                            {
+                                                                this.state.user_name.map((value1, index1) => {
+                                                                    if (value1.order_id == value._id){
+                                                                        return(
+                                                                            value1.name
+                                                                        )
+                                                                    }
+                                                                })
+                                                            }
                                                         </td>
                                                         <td scope="row">{value.billing_address}</td>
                                                         <td scope="row">{value.billing_city}</td>
-                                                        <td scope="row">{value.total}</td>
+                                                        <td scope="row">{value._id}</td>
                                                         <td scope="row">{value.payment_type}</td>
                                                         <td scope="row">{value.status}</td>
                                                         <td scope="row">
@@ -172,6 +224,18 @@ class AllOrders extends Component{
                                                                             <i className="fa fa-trash text-danger" />&nbsp;Delete Order
 
                                                                     </DropdownItem>
+                                                                    {
+                                                                        (value.status != "Complete") ? (
+                                                                            (
+                                                                                <DropdownItem onClick={() => this.changeStatus(value)}>
+                                                                                <i className="fa fa-edit text-primary" />&nbsp;
+                                                                                Mark Order as complete
+
+                                                                                </DropdownItem>
+                                                                            )
+                                                                        ):null
+                                                                    }
+
                                                                 </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                         </td>
