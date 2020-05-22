@@ -7,20 +7,13 @@ import Register from "./pages/public/Register";
 
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
+import AllUsers from "./pages/admin/users/AllUsers";
+import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 
 var routes = [
     {
         path: "/",
         name: "Dashboard",
-        icon: "ni ni-tv-2 text-primary",
-        component: AdminDashboard,
-        layout: "/admin",
-        sidebar_link: true
-    },
-
-    {
-        path: "/storemanager",
-        name: "Store Managers",
         icon: "ni ni-tv-2 text-primary",
         component: AdminDashboard,
         layout: "/admin",
@@ -78,7 +71,45 @@ var routes = [
         icon: "ni ni-tv-2 text-primary",
         component: userProfile,
         layout: "/admin",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/storemanager",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/user",
+        sidebar_link: false
+    },
+
+    {
+        path: "/users/all",
+        name: "Users",
+        icon: "ni ni-cart text-primary",
+        component: AllUsers,
+        layout: "/admin",
         sidebar_link: true
-    }
+    },
+
+    {
+        path: "/storeManagers/all",
+        name: "StoreManagers",
+        icon: "ni ni-cart text-primary",
+        component: AllStoreManagers,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+
 ];
 export default routes;

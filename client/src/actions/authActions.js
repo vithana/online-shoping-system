@@ -116,4 +116,39 @@ export const deactivateAccount = (id,history) => dispatch => {
         );
 };
 
+export const deleteUser = (id,history) => dispatch => {
+
+    axios
+        .delete("/api/users/deleteUser/" + id )
+        .then(res => {
+            // localStorage.removeItem("jwtToken");
+            // setAuthToken(false);
+            // dispatch(setCurrentUser({}));
+            //history.push("/admin/storemanager/all")
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+};
+
+
+// User Register
+export const registerStoreManager = (userData, history) => dispatch => {
+    axios
+        .post("/api/users/register", userData)
+        .then(res => {
+            //history.push("/admin/storemanager/all");
+            return true
+        })
+        .catch(err =>
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data,
+            })
+        );
+};
+
 
