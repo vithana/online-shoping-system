@@ -36,6 +36,11 @@ export default function(state = initialState, action) {
                 ...state,
                 cart: action.data
             };
+        case GET_ERRORS:
+            return {
+                ...state,
+                cart: action.data
+            };
 
         default:
             return state;
