@@ -49,6 +49,8 @@ class Admin extends React.Component {
                     <AdminNavbar
                         {...this.props}
                         NavbarText="Admin Area"
+                        UserProfileLink = "/admin/userProfile"
+
                     />
                     <Switch>
 

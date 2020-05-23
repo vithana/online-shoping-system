@@ -11,6 +11,9 @@ import LandingHeader from "../components/Header/LandingHeader";
 // import Sidebar from "../components/Sidebar/Sidebar";
 
 import routes from "../routes";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {logoutUser} from "../actions/authActions";
 
 
 class Public extends React.Component {
@@ -19,17 +22,49 @@ class Public extends React.Component {
         document.scrollingElement.scrollTop = 0;
         this.refs.mainContent.scrollTop = 0;
     }
-
+    getRoutes = routes => {
+        return routes.map((prop, key) => {
+            if (prop.layout === "/") {
+                return (
+                    <Route
+                        exact path={prop.layout + prop.path}
+                        component={prop.component}
+                        key={key}
+                    />
+                );
+            } else {
+                return null;
+            }
+        });
+    };
     render() {
         return (
             <>
-                <LandingNavbar />
-                <LandingHeader />
-                <div className="main-content" ref="mainContent">
-                </div>
+                    <LandingNavbar
+                        {...this.props}
+                    />
+                    <LandingHeader
+                        {...this.props}
+                    />
+                    <Switch>
+
+                        {this.getRoutes(routes)}
+                    </Switch>
             </>
         );
     }
 }
 
-export default Public;
+Public.propTypes = {
+    logoutUser: PropTypes.func,
+    auth: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { logoutUser }
+)(Public);

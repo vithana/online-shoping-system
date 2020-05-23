@@ -16,6 +16,8 @@ import {
     Input,
     InputGroup,
     Navbar,
+    NavItem,
+    NavLink,
     Nav,
     Container,
     Media
@@ -46,27 +48,33 @@ class AdminNavbar extends React.Component {
                             </h2>
 
                             <Nav className="align-items-center d-none d-md-flex" navbar>
+                                <NavItem>
+                                    <NavLink className="nav-link-icon" to="/" tag={Link}>
+                                        <i className="ni ni-planet" />
+                                        <span className="nav-link-inner--text">Public Site</span>
+                                    </NavLink>
+                                </NavItem>
                                 <UncontrolledDropdown nav>
                                     <DropdownToggle className="pr-0" nav>
                                         <Media className="align-items-center">
-                        <span className="avatar avatar-sm rounded-circle">
-                          <img
-                              alt="..."
-                              src={require("../../assets/img/theme/team-4-800x800.jpg")}
-                          />
-                        </span>
-                                            <Media className="ml-2 d-none d-lg-block">
-                          <span className="mb-0 text-sm font-weight-bold">
-                           {user.name}
-                          </span>
-                                            </Media>
+                                        <span className="avatar avatar-sm rounded-circle">
+                                          <img
+                                              alt="..."
+                                              src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                                          />
+                                        </span>
+                                        <Media className="ml-2 d-none d-lg-block">
+                                          <span className="mb-0 text-sm font-weight-bold">
+                                           {user.name.split(" ")[0]}
+                                          </span>
+                                         </Media>
                                         </Media>
                                     </DropdownToggle>
                                     <DropdownMenu className="dropdown-menu-arrow" right>
                                         <DropdownItem className="noti-title" header tag="div">
                                             <h6 className="text-overflow m-0">Welcome!</h6>
                                         </DropdownItem>
-                                        <DropdownItem to="/admin/userProfile" tag={Link}>
+                                        <DropdownItem to={this.props.UserProfileLink} tag={Link}>
                                             <i className="ni ni-single-02" />
                                             <span>My profile</span>
                                         </DropdownItem>

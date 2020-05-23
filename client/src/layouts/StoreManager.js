@@ -50,6 +50,8 @@ class StoreManager extends React.Component {
                     <Navbar
                         {...this.props}
                         NavbarText="Store Manager Area"
+                        UserProfileLink = "/storemanager/userProfile"
+
                     />
                     <Switch>
 

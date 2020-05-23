@@ -119,3 +119,30 @@ module.exports.deleteOrder =async (id, body,res) => {
         });
     });
 };
+
+//get orders by user_id
+module.exports.findOrdersByUserID = async (id, body,res) => {
+
+    let query = {
+        user_id: id,
+    };
+
+    Order.find(query)
+        .then(orders => {
+            if(!orders) {
+                return res.status(404).send({
+                    message: "Orders not found for this user "
+                });
+            }
+            res.send(orders);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Orders not found for this user"
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting orders for this user"
+        });
+    });
+};

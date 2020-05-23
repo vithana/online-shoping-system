@@ -6,9 +6,14 @@ import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 import ProductAll from "./pages/store_manager/products/productAll";
 
+import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
 import AllProductsClient from "./pages/public/product/AllProductsClient";
+import Landing from "./pages/public/landing/Landing";
+import AllCategories from "./pages/admin/category/AllCategories";
+import AllUsers from "./pages/admin/users/AllUsers";
+import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 
 var routes = [
     {
@@ -21,19 +26,19 @@ var routes = [
     },
 
     {
-        path: "/storemanager",
-        name: "Store Managers",
-        icon: "ni ni-tv-2 text-primary",
-        component: AdminDashboard,
+        path: "/orders/all",
+        name: "Orders",
+        icon: "ni ni-cart text-primary",
+        component: AllOrders,
         layout: "/admin",
         sidebar_link: true
     },
 
     {
-        path: "/orders/all",
-        name: "Orders",
-        icon: "ni ni-cart text-primary",
-        component: AllOrders,
+        path: "/categories/all",
+        name: "Product Categories",
+        icon: "fa fa-list text-primary",
+        component: AllCategories,
         layout: "/admin",
         sidebar_link: true
     },
@@ -55,7 +60,14 @@ var routes = [
         layout: "/user",
         sidebar_link: true
     },
-
+    {
+        path: "/orders",
+        name: "Orders",
+        icon: "ni ni-cart text-primary",
+        component: UserOrders,
+        layout: "/user",
+        sidebar_link: true
+    },
     {
         path: "/login",
         name: "Login",
@@ -75,10 +87,55 @@ var routes = [
     },
 
     {
+        path: "/",
+        name: "Landing",
+        icon: "ni ni-key-25 text-info",
+        component: Landing,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
         path: "/userProfile",
         name: "User Profile",
         icon: "ni ni-tv-2 text-primary",
         component: userProfile,
+        layout: "/admin",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/storemanager",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/user",
+        sidebar_link: false
+    },
+
+    {
+        path: "/users/all",
+        name: "Users",
+        icon: "fas fa-users text-primary",
+        component: AllUsers,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+    {
+        path: "/storeManagers/all",
+        name: "StoreManagers",
+        icon: "fas fa-chalkboard-teacher text-primary",
+        component: AllStoreManagers,
         layout: "/admin",
         sidebar_link: true
     },

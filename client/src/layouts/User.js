@@ -23,7 +23,7 @@ class User extends React.Component {
             if (prop.layout === "/user") {
                 return (
                     <Route
-                        path={prop.layout + prop.path}
+                        exact path={prop.layout + prop.path}
                         component={prop.component}
                         key={key}
                     />
@@ -50,6 +50,7 @@ class User extends React.Component {
                     <Navbar
                         {...this.props}
                         NavbarText="Member Area"
+                        UserProfileLink = "/user/userProfile"
                     />
                     <Switch>
 
