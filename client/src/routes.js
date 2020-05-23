@@ -9,20 +9,13 @@ import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
 import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
+import AllUsers from "./pages/admin/users/AllUsers";
+import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 
 var routes = [
     {
         path: "/",
         name: "Dashboard",
-        icon: "ni ni-tv-2 text-primary",
-        component: AdminDashboard,
-        layout: "/admin",
-        sidebar_link: true
-    },
-
-    {
-        path: "/storemanager",
-        name: "Store Managers",
         icon: "ni ni-tv-2 text-primary",
         component: AdminDashboard,
         layout: "/admin",
@@ -105,7 +98,45 @@ var routes = [
         icon: "ni ni-tv-2 text-primary",
         component: userProfile,
         layout: "/admin",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/storemanager",
+        sidebar_link: false
+    },
+
+    {
+        path: "/userProfile",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: userProfile,
+        layout: "/user",
+        sidebar_link: false
+    },
+
+    {
+        path: "/users/all",
+        name: "Users",
+        icon: "fas fa-users text-primary",
+        component: AllUsers,
+        layout: "/admin",
         sidebar_link: true
-    }
+    },
+
+    {
+        path: "/storeManagers/all",
+        name: "StoreManagers",
+        icon: "fas fa-chalkboard-teacher text-primary",
+        component: AllStoreManagers,
+        layout: "/admin",
+        sidebar_link: true
+    },
+
+
 ];
 export default routes;

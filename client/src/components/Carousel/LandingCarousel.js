@@ -16,22 +16,18 @@ import {
 
 const items = [
     {
-        src: require("../../assets/img/slider/slider5.jpeg"),
+        src: require("../../assets/img/slider/slide6opt.jpg"),
+        altText: "Somewhere",
+        caption: "Somewhere"
+    }
+    ,
+    {
+        src: require("../../assets/img/slider/slide5opt.jpg"),
         altText: "Somewhere",
         caption: "Somewhere"
     },
     {
-        src: require("../../assets/img/slider/slider4.jpeg"),
-        altText: "Somewhere",
-        caption: "Somewhere"
-    },
-    {
-        src: require("../../assets/img/slider/slider3.jpeg"),
-        altText: "Somewhere",
-        caption: "Somewhere"
-    },
-    {
-        src: require("../../assets/img/slider/slider2.jpeg"),
+        src: require("../../assets/img/slider/slide3opt.jpg"),
         altText: "Somewhere",
         caption: "Somewhere"
     }
@@ -85,7 +81,7 @@ function LandingCarousel() {
                                                 key={item.src}
                                             >
                                                 <div style={{}}>
-                                                    <img src={item.src} alt={item.altText} style={{width: "100%"}}/>
+                                                    <img src={item.src} alt={item.altText} style={{width: "100%", maxHeight:"100vh"}}/>
                                                 </div>
 
                                                 <CarouselCaption

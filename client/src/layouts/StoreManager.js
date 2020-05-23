@@ -23,7 +23,7 @@ class StoreManager extends React.Component {
             if (prop.layout === "/storemanager") {
                 return (
                     <Route
-                        path={prop.layout + prop.path}
+                        exact path={prop.layout + prop.path}
                         component={prop.component}
                         key={key}
                     />
@@ -50,6 +50,8 @@ class StoreManager extends React.Component {
                     <Navbar
                         {...this.props}
                         NavbarText="Store Manager Area"
+                        UserProfileLink = "/storemanager/userProfile"
+
                     />
                     <Switch>
 
