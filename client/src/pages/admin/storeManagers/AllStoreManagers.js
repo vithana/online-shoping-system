@@ -359,7 +359,7 @@ class AllStoreManagers extends Component{
                                                                         data-dismiss="modal"
                                                                         onClick={this.registerNewStoreManager}
                                                                     >
-                                                                        Sign in
+                                                                        Register Store Manager
                                                                     </Button>
                                                                 </div>
                                                             </Form>

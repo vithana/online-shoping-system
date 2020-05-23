@@ -41,9 +41,11 @@ class Admin extends React.Component {
                     routes={routes}
                     logo={{
                         innerLink: "/admin",
-                        imgSrc: require("../assets/img/brand/argon-react.png"),
+                        imgSrc: require("../assets/img/brand/logo.jpg"),
                         imgAlt: "..."
                     }}
+                    UserProfileLink = "/admin/userProfile"
+
                 />
                 <div className="main-content" ref="mainContent">
                     <AdminNavbar
