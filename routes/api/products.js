@@ -73,7 +73,7 @@ router
     );
 
 
-// @route GET api/products/productSortByManager
+// @route GET api/products/productManager/:id
 // @desc Get product sorted by productManager
 // @access Public
 router

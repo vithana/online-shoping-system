@@ -4,9 +4,11 @@ import Dashboard from "./pages/user/Dashboard";
 import AllOrders from "./pages/admin/orders/AllOrders";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
+import ProductAll from "./pages/store_manager/products/productAll";
 
 import userProfile from "./components/UserProfile/userProfile";
 import {registerUser} from "./actions/authActions";
+import AllProductsClient from "./pages/public/product/AllProductsClient";
 
 var routes = [
     {
@@ -82,12 +84,21 @@ var routes = [
     },
 
     {
-        path: "/product",
+        path: "/product/all",
         name: "Products",
         icon: "ni ni-tv-2 text-primary",
-        component: AdminDashboard,
+        component: ProductAll,
         layout: "/storemanager",
         sidebar_link: true
+    },
+
+    {
+        path: "/products/allClient",
+        name: "All Products",
+        icon: "ni ni-circle-08 text-pink",
+        component: AllProductsClient,
+        layout: "/public",
+        sidebar_link: false
     },
 
 
