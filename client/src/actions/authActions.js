@@ -3,6 +3,7 @@ import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING,GET_USER } from "./types";
+import {getCartByUser} from "./cartActions";
 // User Register
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -26,6 +27,7 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
+      dispatch(getCartByUser(decoded.id));
     })
     .catch(err =>
       dispatch({
