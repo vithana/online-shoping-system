@@ -111,7 +111,7 @@ class Login extends Component {
                 </div>
                 <div className='mt--8 pb-5 container'>
                     <div className='justify-content-center row'>
-                        <Col lg="5" md="7">
+                        <Col lg="5" md="7" className="mb-7">
                             <Card className="bg-secondary shadow border-0">
                                 <CardHeader className="bg-transparent pb-2">
                                     <div className="text-muted text-center mt-2 mb-3">
