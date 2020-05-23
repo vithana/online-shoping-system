@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_ERRORS, GET_CART, CREATE_CART, UPDATE_CART, DELETE_CART } from "./types";
+import { GET_CART_ERRORS, GET_CART, CREATE_CART, UPDATE_CART, DELETE_CART } from "./types";
 
 // Get Cart By User
 export const getCartByUser = (id, history) => dispatch => {
@@ -14,8 +14,8 @@ export const getCartByUser = (id, history) => dispatch => {
         )
         .catch(err =>
             dispatch({
-                type: GET_ERRORS,
-                data: err.response.data
+                type: GET_CART_ERRORS,
+                data: err
             })
         );
 };
@@ -32,8 +32,8 @@ export const createCart = (cartData, history) => dispatch => {
         )
         .catch(err =>
             dispatch({
-                type: GET_ERRORS,
-                data: err.response.data
+                type: GET_CART_ERRORS,
+                data: err
             })
         );
 };
@@ -50,8 +50,8 @@ export const updateCart = (id, cartData, history) => dispatch => {
         })
         .catch(err =>
             dispatch({
-                type: GET_ERRORS,
-                data: err.response.data
+                type: GET_CART_ERRORS,
+                data: err
             })
         );
 };
@@ -69,8 +69,8 @@ export const deleteCart = (id, history) => dispatch => {
         })
         .catch(err =>
             dispatch({
-                type: GET_ERRORS,
-                data: err.response.data
+                type: GET_CART_ERRORS,
+                data: err
             })
         );
 };
