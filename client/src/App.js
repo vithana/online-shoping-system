@@ -7,6 +7,8 @@ import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { Provider } from "react-redux";
 import store from "./store";
 
+import { getCartByUser } from "./actions/cartActions";
+
 import AdminLayout from "./layouts/Admin";
 import StoreManagerLayout from "./layouts/StoreManager";
 import UserLayout from "./layouts/User";
@@ -15,6 +17,8 @@ import PublicLayout from "./layouts/Public";
 import Landing from "./components/layout/Landing";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
+import UserCart from "./pages/user/carts/UserCart";
+
 
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import AdminPrivateRoute from "./components/private-route/AdminPrivateRoute";
@@ -36,12 +40,14 @@ if (localStorage.jwtToken) {
   setAuthToken(token);
   const decoded = jwt_decode(token);
   store.dispatch(setCurrentUser(decoded));
+  store.dispatch(getCartByUser(decoded.id));
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     window.location.href = "./login";
   }
 }
+
 class App extends Component {
   render() {
     return (
@@ -56,6 +62,7 @@ class App extends Component {
             </Switch>
             <Switch>
               <PrivateRoute path="/user" component={UserLayout} />
+              <PrivateRoute exact path="/public/user/cart" component={UserCart} />
             </Switch>
               <Route exact path="/" component={PublicLayout} />
               {/*<Route exact path="/" component={Landing} />*/}

@@ -205,7 +205,29 @@ class AllOrders extends Component{
                                                         <td scope="row">{value.billing_city}</td>
                                                         <td scope="row">{value.total}</td>
                                                         <td scope="row">{value.payment_type}</td>
-                                                        <td scope="row">{value.status}</td>
+                                                        <td scope="row">
+                                                            {
+                                                                (value.status == "Complete") ? (
+                                                                    (
+                                                                        <Badge className="badge-success">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                            {
+                                                                (value.status == "Pending") ? (
+                                                                    (
+                                                                        <Badge className="badge-warning">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                            {
+                                                                (value.status == "Not Received") ? (
+                                                                    (
+                                                                        <Badge className="badge-danger">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                        </td>
                                                         <td scope="row">
                                                             <UncontrolledDropdown>
                                                                 <DropdownToggle

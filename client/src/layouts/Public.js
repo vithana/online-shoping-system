@@ -43,6 +43,8 @@ class Public extends React.Component {
                 <div ref="mainContent">
                     <LandingNavbar
                         {...this.props}
+                        navBarColor = "transparent"
+                        navBarFontColor= "text-white"
                     />
 
                     <Switch>
@@ -61,11 +63,13 @@ class Public extends React.Component {
 
 Public.propTypes = {
     logoutUser: PropTypes.func,
-    auth: PropTypes.object
+    auth: PropTypes.object,
+    cart: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    cart: state.cart
 });
 
 export default connect(
