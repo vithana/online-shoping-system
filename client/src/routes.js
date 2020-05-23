@@ -12,6 +12,7 @@ import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 import AllProducts from "./pages/admin/products/AllProducts";
+import UserCart from "./pages/user/carts/UserCart";
 
 var routes = [
     {
@@ -117,6 +118,15 @@ var routes = [
         icon: "ni ni-tv-2 text-primary",
         component: userProfile,
         layout: "/user",
+        sidebar_link: false
+    },
+
+    {
+        path: "/public/user/cart",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: UserCart,
+        layout: "/",
         sidebar_link: false
     },
 

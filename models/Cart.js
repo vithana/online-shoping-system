@@ -18,6 +18,7 @@ const CartSchema = new Schema(
             qty: {
                 type: Number,
                 required: true,
+                default: 1,
             },
             price:{
                 type: Number,
@@ -27,6 +28,10 @@ const CartSchema = new Schema(
                 type: Number,
                 default: 0,
             },
+            total:{
+                type: Number,
+                required: true,
+            }
         }],
 
     },
