@@ -11,6 +11,7 @@ import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
+import AllProducts from "./pages/admin/products/AllProducts";
 
 var routes = [
     {
@@ -133,6 +134,14 @@ var routes = [
         name: "StoreManagers",
         icon: "fas fa-chalkboard-teacher text-primary",
         component: AllStoreManagers,
+        layout: "/admin",
+        sidebar_link: true
+    },
+    {
+        path: "/products/all",
+        name: "Products",
+        icon: "fas fa-tshirt text-primary",
+        component: AllProducts,
         layout: "/admin",
         sidebar_link: true
     },
