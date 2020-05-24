@@ -11,6 +11,8 @@ import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
+import AllProducts from "./pages/admin/products/AllProducts";
+import UserCart from "./pages/user/carts/UserCart";
 
 var routes = [
     {
@@ -50,7 +52,7 @@ var routes = [
     },
 
     {
-        path: "/index",
+        path: "/",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: Dashboard,
@@ -120,6 +122,15 @@ var routes = [
     },
 
     {
+        path: "/public/user/cart",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: UserCart,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
         path: "/users/all",
         name: "Users",
         icon: "fas fa-users text-primary",
@@ -133,6 +144,14 @@ var routes = [
         name: "StoreManagers",
         icon: "fas fa-chalkboard-teacher text-primary",
         component: AllStoreManagers,
+        layout: "/admin",
+        sidebar_link: true
+    },
+    {
+        path: "/products/all",
+        name: "Products",
+        icon: "fas fa-tshirt text-primary",
+        component: AllProducts,
         layout: "/admin",
         sidebar_link: true
     },

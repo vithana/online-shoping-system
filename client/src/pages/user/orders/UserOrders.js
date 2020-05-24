@@ -26,6 +26,7 @@ import {
 import axios from "axios";
 import {connect} from "react-redux";
 import _findIndex from "lodash.findindex";
+import Button from "reactstrap/es/Button";
 
 class UserOrders extends Component{
     _isMounted = false;
@@ -132,34 +133,39 @@ class UserOrders extends Component{
                                                         <td scope="row">{value.billing_city}</td>
                                                         <td scope="row">{value.total}</td>
                                                         <td scope="row">{value.payment_type}</td>
-                                                        <td scope="row">{value.status}</td>
                                                         <td scope="row">
-                                                            <UncontrolledDropdown>
-                                                                <DropdownToggle
-                                                                    className="btn-icon-only text-light"
-                                                                    href="#"
-                                                                    role="button"
-                                                                    size="sm"
-                                                                    color=""
-                                                                    onClick={e => e.preventDefault()}
-                                                                >
-                                                                    <i className="fas fa-ellipsis-v" />
-                                                                </DropdownToggle>
-
-                                                                <DropdownMenu className="dropdown-menu-arrow" right>
-                                                                    {
-                                                                        (value.status != "Complete") ? (
-                                                                            (
-                                                                                <DropdownItem onClick={() => this.changeStatus(value)}>
-                                                                                    <i className="fa fa-check-circle text-success" />&nbsp;
-                                                                                    Confirm Order Received
-                                                                                </DropdownItem>
-                                                                            )
-                                                                        ):null
-                                                                    }
-
-                                                                </DropdownMenu>
-                                                            </UncontrolledDropdown>
+                                                            {
+                                                                (value.status == "Complete") ? (
+                                                                    (
+                                                                        <Badge className="badge-success">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                            {
+                                                                (value.status == "Pending") ? (
+                                                                    (
+                                                                        <Badge className="badge-warning">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                            {
+                                                                (value.status == "Not Received") ? (
+                                                                    (
+                                                                        <Badge className="badge-danger">{value.status}</Badge>
+                                                                    )
+                                                                ) : null
+                                                            }
+                                                        </td>
+                                                        <td scope="row">
+                                                            {
+                                                                (value.status != "Complete") ? (
+                                                                    (
+                                                                        <Button className="btn btn-sm btn-success" onClick={() => this.changeStatus(value)} title="Confirm Order Received">
+                                                                            <i className="fa fa-check-circle" />&nbsp;
+                                                                        </Button>
+                                                                    )
+                                                                ):null
+                                                            }
                                                         </td>
                                                     </tr>
                                                 )
