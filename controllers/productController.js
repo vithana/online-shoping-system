@@ -94,3 +94,16 @@ module.exports.findViewByProductManager = async (req , res) => {
     }
 
 }
+
+//find product View by CategoryId
+module.exports.findViewByCategoryId = async (req , res) => {
+
+    try {
+        const product = await productService.findViewByCatrgoryId(req.params.id, res);
+        console.log(product)
+    }catch (error) {
+        res.status(400).send(error);
+
+    }
+
+}

@@ -4,12 +4,17 @@ import Dashboard from "./pages/user/Dashboard";
 import AllOrders from "./pages/admin/orders/AllOrders";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
+import ProductAll from "./pages/store_manager/products/productAll";
+
 import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
+import {registerUser} from "./actions/authActions";
+import AllProductsClient from "./pages/public/product/AllProductsClient";
 import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
+import AddProduct from "./pages/store_manager/products/AddProduct";
 import AllProducts from "./pages/admin/products/AllProducts";
 import UserCart from "./pages/user/carts/UserCart";
 import WishList from "./pages/user/wishlist/wishlist";
@@ -155,6 +160,33 @@ var routes = [
         icon: "fas fa-chalkboard-teacher text-primary",
         component: AllStoreManagers,
         layout: "/admin",
+        sidebar_link: true
+    },
+
+    {
+        path: "/product/all",
+        name: "All Products",
+        icon: "fas fa-store",
+        component: ProductAll,
+        layout: "/storemanager",
+        sidebar_link: true
+    },
+
+    {
+        path: "/products/allClient",
+        name: "All Products",
+        icon: "ni ni-circle-08 text-pink",
+        component: AllProductsClient,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
+        path: "/product/add",
+        name: "Add Products",
+        icon: "fas fa-plus",
+        component: AddProduct,
+        layout: "/storemanager",
         sidebar_link: true
     },
     {
