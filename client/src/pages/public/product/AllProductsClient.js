@@ -7,8 +7,9 @@ import {logoutUser} from "../../../actions/authActions";
 import Singleproductcard from "../../../components/product/singleProductCard"
  import {Menu} from "primereact/menu";
  import LandingNavbar from "../../../components/Navbar/LandingNavbar";
- import LandingHeader from "../../../components/Header/LandingHeader";
+ // import LandingHeader from "../../../components/Header/LandingHeader";
  import _findIndex from "lodash.findindex";
+ import Footer from "../../../components/Footer/PublicFooter";
 
 class AllProductsClient extends Component{
 
@@ -113,13 +114,15 @@ class AllProductsClient extends Component{
             <>
                 <LandingNavbar
                     {...this.props}
+                    navBarColor = "#fff"
+                    navBarFontColor= "text-dark"
                 />
-                <LandingHeader
-                    {...this.props}
-                />
+                {/*<LandingHeader*/}
+                {/*    {...this.props}*/}
+                {/*/>*/}
 
                 <section>
-                    <div className="container-fluid">
+                    <div className="container-fluid mt-5 pt-5" style={{backgroundColor:"#f0f0f0", minHeight:"80vh"}}>
                         <div className="float-left ml--2" >
                             <Menu  model = {items} style={{minHeight : "80vh"}} />
                             {console.log(items)}
@@ -144,6 +147,7 @@ class AllProductsClient extends Component{
                       </div>
                     </div>
                 </section>
+                <Footer />
             </>
 
         );
@@ -154,11 +158,13 @@ class AllProductsClient extends Component{
 
  AllProductsClient.propTypes = {
      logoutUser: PropTypes.func,
-     auth: PropTypes.object.isRequired
+     auth: PropTypes.object.isRequired,
+     cart: PropTypes.object.isRequired
  };
 
  const mapStateToProps = state => ({
-     auth: state.auth
+     auth: state.auth,
+     cart: state.cart
  });
 
  export default connect(
