@@ -19,6 +19,7 @@ import {
     InputGroupAddon,
     InputGroupText
 } from "reactstrap";
+import StoreManagerHeader from "../../../components/Header/StoreManagerHeader";
 
 class AddProduct extends Component{
     _isMounted = false;
@@ -124,7 +125,7 @@ render() {
     return (
 
         <>
-            <Header/>
+            <StoreManagerHeader/>
             <Container className="mt--7" fluid>
                 <Card className="bg-secondary shadow border-0">
                 <CardBody className="px-lg-5 py-lg-5">

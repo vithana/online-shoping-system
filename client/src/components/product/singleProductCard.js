@@ -95,7 +95,7 @@ class singleProductCard extends Component {
                            <Card style={{ width: "18rem" }}>
                                <CardImg
                                    alt="..."
-                                   src="http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                   src={"http://localhost:5000/uploads/" + this.state.products.productImage}
                                    top
                                />
                                <CardBody>

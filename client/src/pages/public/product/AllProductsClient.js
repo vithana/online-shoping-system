@@ -96,11 +96,14 @@ class AllProductsClient extends Component{
             {
                 label: 'Category',
                 items: [
-                        {label: 'All', icon: 'pi pi-fw pi-upload'},
+                        {label: 'All', icon: 'pi pi-list'},
+                        {label: 'Men', icon: 'pi pi-list'},
+                        {label: 'Women', icon: 'pi pi-list'},
+                        {label: 'Children', icon: 'pi pi-list'},
                         this.state.category.map((value, index1) => {
                             return (
 
-                                {label: value.title, icon: 'pi pi-fw pi-home'}
+                                {label: value.title, icon: 'pi pi-list'}
                             )
 
                          })
