@@ -79,11 +79,12 @@ function LandingNavbar(props) {
             <Container>
                 <div className={classnames("navbar-translate", navbarFontColor)}>
                     <NavbarBrand
-                        data-placement="bottom"
+                        data-placement="top"
                         to="/"
                         tag={Link}
                     >
-                        Online Shopping
+                        <img src={require("../../assets/img/brand/logo.png")} width={200} />
+                        {/*Online Shopping*/}
                     </NavbarBrand>
                     <button
                         aria-expanded={navbarCollapse}
@@ -105,6 +106,11 @@ function LandingNavbar(props) {
                     {
                         (user.isAuthenticated)? (
                             <Nav navbar>
+                                <NavItem>
+                                    <NavLink className={classnames(navbarFontColor)} to="/product/all" tag={Link}>
+                                        Products
+                                    </NavLink>
+                                </NavItem>
                                 <NavItem>
                                     <NavLink className={classnames(" notification", navbarFontColor)} to="/wishlist" tag={Link}>
                                         <i className="fa fa-heart" title="Wishlist"></i>&nbsp;
@@ -152,6 +158,11 @@ function LandingNavbar(props) {
                             </Nav>
                         ) : (
                             <Nav navbar>
+                                <NavItem>
+                                    <NavLink className={classnames(navbarFontColor)} to="/product/all" tag={Link}>
+                                        Products
+                                    </NavLink>
+                                </NavItem>
                                 <NavItem>
                                     <NavLink className={classnames(navbarFontColor)} to="/login" tag={Link}>
                                         Login

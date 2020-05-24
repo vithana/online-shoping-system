@@ -28,6 +28,7 @@ import {GET_ERRORS} from "../../../actions/types";
 import index from "../../../reducers";
 import {connect} from "react-redux";
 import _findIndex from "lodash.findindex";
+import StoreManagerHeader from "../../../components/Header/StoreManagerHeader";
 
 class ProductAll extends Component{
     _isMounted = false;
@@ -65,7 +66,7 @@ class ProductAll extends Component{
                         products: res.data
                     });
                 }
-                console.log(res);
+                console.log(res.data);
             })
             .catch(err =>{
                 this.setState({
@@ -159,9 +160,11 @@ class ProductAll extends Component{
 
 
     render(){
+
+        let src = "http://localhost:5000/uploads/"
          return (
             <>
-                <Header/>
+                <StoreManagerHeader/>
 
                 <Container className="mt--7" fluid>
                     {/* Table */}
@@ -188,13 +191,14 @@ class ProductAll extends Component{
                                     {
                                         this.state.products.map((value, index) => {
                                             return (
+
                                                 <tr key={value._id}>
                                                     <th scope="row">
                                                         <Media className="align-items-center">
                                                             <a  className="avatar rounded-circle mr-3" >
                                                                 <img
                                                                     alt="..."
-                                                                    src = "http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                                                    src ={ src + value.productImage }
                                                                 />
                                                             </a>
                                                             <Media>
@@ -284,7 +288,7 @@ class ProductAll extends Component{
                     </Row>
                 </Container>
 
-
+                {/*Update Model*/}
                 <Modal
                     className="modal-dialog-centered"
                     size="sm"
@@ -432,7 +436,7 @@ class ProductAll extends Component{
                                                    className="custom-file-input"
                                                    id="productImg"
                                                    onChange={this.onChange}
-                                                   value={this.state.productImg}/>
+                                                   value={this.state.productImage}/>
                                             <label className="custom-file-label" htmlFor="customFile">Upload Image</label>
                                         </div>
                                     </FormGroup>

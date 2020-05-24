@@ -47,7 +47,7 @@ router
 router
     .route("/insert")
     .post(
-       //upload.single("productImg"),
+       upload.single("productImg"),
        productController.insertProduct
     );
 
