@@ -79,11 +79,12 @@ function LandingNavbar(props) {
             <Container>
                 <div className={classnames("navbar-translate", navbarFontColor)}>
                     <NavbarBrand
-                        data-placement="bottom"
+                        data-placement="top"
                         to="/"
                         tag={Link}
                     >
-                        Online Shopping
+                        <img src={require("../../assets/img/brand/logo.png")} width={200} />
+                        {/*Online Shopping*/}
                     </NavbarBrand>
                     <button
                         aria-expanded={navbarCollapse}
