@@ -8,13 +8,9 @@ module.exports = function validateCreateOrderInput(data) {
     // data.total = !isEmpty(data.total) ? data.total : "";
     data.status = !isEmpty(data.status) ? data.status : "";
     data.payment_type = !isEmpty(data.payment_type) ? data.payment_type : "";
+    data.card_number = !isEmpty(data.card_number) ? data.card_number : "";
     data.billing_address = !isEmpty(data.billing_address) ? data.billing_address : "";
     data.billing_city = !isEmpty(data.billing_city) ? data.billing_city : "";
-
-    // total checks
-    // if (Validator.isEmpty(data.total)) {
-    //     errors.total = "Total is required";
-    // }
 
     // status checks
     if (Validator.isEmpty(data.status)) {
@@ -23,17 +19,24 @@ module.exports = function validateCreateOrderInput(data) {
 
     //payment_type checks
     if (Validator.isEmpty(data.payment_type)) {
-        errors.payment_type = "Payment Type field is required";
+        errors.payment_type = "Payment Type is required";
+    } else {
+        //credit card check
+        if(data.payment_type == "Credit Card"){
+            if (Validator.isEmpty(data.card_number)) {
+                errors.card_number = "Card Number is required";
+            }
+        }
     }
 
     //billing_address checks
     if (Validator.isEmpty(data.billing_address)) {
-        errors.payment_type = "Billing Address field is required";
+        errors.billing_address = "Billing Address field is required";
     }
 
     //billing_city checks
     if (Validator.isEmpty(data.billing_city)) {
-        errors.payment_type = "Billing City field is required";
+        errors.billing_city = "Billing City field is required";
     }
 
     return {

@@ -105,7 +105,7 @@ function LandingNavbar(props) {
                         (user.isAuthenticated)? (
                             <Nav navbar>
                                 <NavItem>
-                                    <NavLink className={classnames(" notification", navbarFontColor)} to="public/user/cart" tag={Link}>
+                                    <NavLink className={classnames(" notification", navbarFontColor)} to="/cart" tag={Link}>
                                         <i className="fa fa-shopping-cart" title="View Cart"></i>&nbsp;
                                         {
                                             (productCount != 0)? (
@@ -131,7 +131,7 @@ function LandingNavbar(props) {
                                     }
                                     {
                                         (user.userRole === "user") ?(
-                                            <NavLink className={classnames(navbarFontColor)} to="/user/index" tag={Link}>
+                                            <NavLink className={classnames(navbarFontColor)} to="/user/" tag={Link}>
                                                 Dashboard
                                             </NavLink>
                                         ) : null

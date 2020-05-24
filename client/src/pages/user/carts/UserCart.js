@@ -4,10 +4,17 @@ import PropTypes from "prop-types";
 
 import axios from "axios";
 import {connect} from "react-redux";
-//sdsd
 import LandingNavbar from "../../../components/Navbar/LandingNavbar";
 import Footer from "../../../components/Footer/PublicFooter";
 import {logoutUser} from "../../../actions/authActions";
+import {updateCart} from "../../../actions/cartActions";
+import _findIndex from "lodash.findindex";
+import Button from "reactstrap/es/Button";
+import Row from "reactstrap/es/Row";
+import Card from "reactstrap/es/Card";
+import CardTitle from "reactstrap/es/CardTitle";
+import CardText from "reactstrap/es/CardText";
+import {Link} from "react-router-dom";
 
 class UserCart extends Component{
 
@@ -18,20 +25,41 @@ class UserCart extends Component{
             isLoaded: false,
             cartProducts: [],
             cartProductsShow:[],
-            checkedOutProducts: [],
-            tempProducts: []
+            tempProducts: [],
+            subTotal: 0,
+            productTotal: 0
         };
     }
 
     componentDidMount() {
         if ((Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object)){
             this.getProductsInCart(this.props.cart.cart.products);
+
+            this.setState({
+                cartProductsShow:this.props.cart.cart.products
+            }, () => {
+                this.calculateSubTotal();
+            });
+
+            this.setState({
+                productTotal:this.props.cart.cart.products.length
+            });
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.cart !== this.props.cart){
             this.getProductsInCart(this.props.cart.cart.products);
+
+            this.setState({
+                cartProductsShow:this.props.cart.cart.products
+            }, () => {
+                this.calculateSubTotal();
+            });
+
+            this.setState({
+                productTotal:this.props.cart.cart.products.length
+            });
         }
     }
 
@@ -39,17 +67,26 @@ class UserCart extends Component{
     }
 
     getProductsInCart = (products) => {
+        this.setState({
+            cartProducts: []
+        });
+
         products.map((value, index) =>{
             axios
                 .get("/api/products/oneProduct/" + value.product_id)
                 .then(res => {
+                    this.state.cartProducts.map((value1, index1) => {
+                        if (res.data._id == value1._id){
+                            res.data = {};
+                        }
+                    });
 
-                        this.setState({
-                            cartProducts: [
-                                ...this.state.cartProducts,
-                                res.data
-                            ]
-                        });
+                    this.setState({
+                        cartProducts: [
+                            ...this.state.cartProducts,
+                            res.data
+                        ]
+                    });
                 })
                 .catch(err =>{
                     this.setState({
@@ -62,20 +99,97 @@ class UserCart extends Component{
 
     onQtyChange = (event, product) => {
 
-        let total = (product.price - (product.discount/100)) * event.target.value;
+        let total = (product.price - (product.discount/100) * product.price) * event.target.value;
 
         const newCartProduct = {
             product_id: product.product_id,
             qty: event.target.value,
             price: product.price,
             discount: product.discount,
-            total: total
+            total: total,
+            _id: product._id
         };
 
-        let categories = this.state.cartProducts;
+        let cartProductNew = this.state.cartProductsShow;
+        let cartProductNewIndex = _findIndex(this.state.cartProductsShow, {product_id : product.product_id});
+
+        cartProductNew.splice(cartProductNewIndex, 1);
 
         this.setState({
-            tempQty : event.target.value
+            cartProductsShow: [
+                cartProductNew
+            ]
+        });
+
+        this.setState({
+            cartProductsShow: [
+                ...this.state.cartProductsShow,
+                newCartProduct
+            ]
+        });
+    };
+
+    updateCart = () =>{
+        const updatedCart = {
+            user_id: this.props.cart.cart.user_id,
+            products: this.state.cartProductsShow
+        };
+
+        this.setState({
+            cartProductsShow: [],
+            cartProducts: []
+        });
+
+        this.props.updateCart(this.props.cart.cart._id, updatedCart);
+    };
+
+    RemoveAllCartItems = () =>{
+        const updatedCart = {
+            user_id: this.props.cart.cart.user_id,
+            products: []
+        };
+
+        this.setState({
+            cartProductsShow: [],
+            cartProducts: []
+        });
+
+        this.props.updateCart(this.props.cart.cart._id, updatedCart);
+    };
+
+    RemoveSingleItems= (id) =>{
+        let Product = this.state.cartProducts;
+        let ProductsIndex = _findIndex(this.state.cartProducts, {_id : id});
+
+        let CartProducts = this.state.cartProductsShow;
+        let CartProductsIndex = _findIndex(this.state.cartProductsShow, {product_id : id});
+
+        Product.splice(ProductsIndex, 1);
+        CartProducts.splice(CartProductsIndex, 1);
+
+        this.setState({
+            cartProducts: [Product]
+        });
+
+        const updatedCart = {
+            user_id: this.props.cart.cart.user_id,
+            products: CartProducts
+        };
+
+        this.props.updateCart(this.props.cart.cart._id, updatedCart);
+    };
+
+    calculateSubTotal= () =>{
+        let subtotal = 0;
+        console.log(this.state.cartProductsShow);
+        this.state.cartProductsShow.map((value, index) => {
+            subtotal += value.total;
+            console.log(value.total);
+        });
+
+
+        this.setState({
+            subTotal:subtotal
         });
     };
 
@@ -102,8 +216,8 @@ class UserCart extends Component{
                                             <th className="text-uppercase" rowSpan="1">Total</th>
                                             <th rowSpan="1">&nbsp;</th>
                                         </tr>
-                                    </thead>
 
+                                    </thead>
                                     <tbody>
                                     {
                                         (Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object) ? (
@@ -125,7 +239,7 @@ class UserCart extends Component{
 
                                                         <td>
                                                             {
-                                                                this.props.cart.cart.products.map((value1, index1) => {
+                                                                this.state.cartProductsShow.map((value1, index1) => {
                                                                     if (value1.product_id == value._id){
                                                                         return (
                                                                             <div className="col-md-4" key={index1}>
@@ -139,7 +253,7 @@ class UserCart extends Component{
 
                                                         <td>
                                                             {
-                                                                this.props.cart.cart.products.map((value2, index2) => {
+                                                                this.state.cartProductsShow.map((value2, index2) => {
                                                                     if (value2.product_id == value._id){
                                                                         return (
                                                                             value2.total
@@ -149,7 +263,10 @@ class UserCart extends Component{
                                                             }
                                                         </td>
                                                         <td>
-                                                            <i className="fa fa-trash text-danger" title="Remove Item from cart" />
+                                                            <a className="btn" title="Remove Item from cart" onClick={() => this.RemoveSingleItems(value._id)}>
+                                                                <i className="fa fa-trash text-danger" />
+                                                            </a>
+
                                                         </td>
                                                     </tr>
                                                 )
@@ -166,12 +283,50 @@ class UserCart extends Component{
 
                                     }
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colSpan="50">
+                                                <hr/>
+                                                <Row className="justify-content-between mx-2">
+                                                    <Button className="btn btn-outline-dark" onClick={() => this.RemoveAllCartItems()}>
+                                                        Clear Cart
+                                                    </Button>
+                                                    <Button className="btn btn-outline-dark" onClick={() => this.updateCart()}>
+                                                        Update Cart
+                                                    </Button>
+                                                </Row>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
                     </div>
 
+                    <div className="row justify-content-center mt-4">
+                        <div className="col-md-8">
+                            <div className="row justify-content-end">
+                                <div className="col-md-6">
+                                    <Card className="p-4">
+                                        <CardTitle className="text-center">
+                                            <h2>Summary</h2>
+                                        </CardTitle>
+                                        <CardText>
+                                            <label>Total Products: {this.state.productTotal}</label>
+                                            <br/>
+                                            <label>Grand Total: {this.state.subTotal}</label>
+                                        </CardText>
 
+                                        <Link className="btn btn-outline-dark text-uppercase text-center mx-5" to="/checkout">
+                                            Checkout now
+                                        </Link>
+
+
+                                    </Card>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -185,6 +340,7 @@ class UserCart extends Component{
 
 UserCart.propTypes = {
     logoutUser: PropTypes.func,
+    updateCart: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     cart: PropTypes.object.isRequired,
 };
@@ -195,5 +351,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps,
-    { logoutUser }
+    { logoutUser, updateCart }
 )(UserCart);
