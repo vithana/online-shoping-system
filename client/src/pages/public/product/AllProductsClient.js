@@ -96,11 +96,14 @@ class AllProductsClient extends Component{
             {
                 label: 'Category',
                 items: [
-                        {label: 'All', icon: 'pi pi-fw pi-upload'},
+                        {label: 'All', icon: 'pi pi-list'},
+                        {label: 'Men', icon: 'pi pi-list'},
+                        {label: 'Women', icon: 'pi pi-list'},
+                        {label: 'Children', icon: 'pi pi-list'},
                         this.state.category.map((value, index1) => {
                             return (
 
-                                {label: value.title, icon: 'pi pi-fw pi-home'}
+                                {label: value.title, icon: 'pi pi-list'}
                             )
 
                          })
@@ -122,11 +125,11 @@ class AllProductsClient extends Component{
 
                 <section>
                     <div className="container-fluid mt-5 pt-5" style={{backgroundColor:"#f0f0f0", minHeight:"80vh"}}>
-                        <div className="float-left ml--2" >
+                        <div className="float-left ml--2 mt-3" >
                             <Menu  model = {items} style={{minHeight : "80vh"}} />
                             {console.log(items)}
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
 
                           {
 

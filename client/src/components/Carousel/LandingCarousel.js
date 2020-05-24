@@ -17,19 +17,19 @@ import {
 const items = [
     {
         src: require("../../assets/img/slider/slide6opt.jpg"),
-        altText: "Somewhere",
-        caption: "Somewhere"
+        altText: "",
+        caption: ""
     }
     ,
     {
         src: require("../../assets/img/slider/slide5opt.jpg"),
-        altText: "Somewhere",
-        caption: "Somewhere"
+        altText: "",
+        caption: ""
     },
     {
         src: require("../../assets/img/slider/slide3opt.jpg"),
-        altText: "Somewhere",
-        caption: "Somewhere"
+        altText: "",
+        caption: ""
     }
 ];
 
@@ -86,7 +86,7 @@ function LandingCarousel() {
 
                                                 <CarouselCaption
                                                     captionText={item.caption}
-                                                    captionHeader="sdsd"
+                                                    captionHeader=""
                                                 />
                                             </CarouselItem>
                                         );
