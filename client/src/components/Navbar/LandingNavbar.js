@@ -81,6 +81,7 @@ function LandingNavbar(props) {
                     <NavbarBrand
                         data-placement="bottom"
                         to="/"
+                        tag={Link}
                     >
                         Online Shopping
                     </NavbarBrand>
