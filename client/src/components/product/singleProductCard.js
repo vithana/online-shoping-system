@@ -1,4 +1,8 @@
 import React , {Component} from "react";
+
+import PropTypes from "prop-types";
+
+
 // reactstrap components
 import {
     Button,
@@ -9,6 +13,11 @@ import {
     CardText, PaginationLink
 } from "reactstrap";
 import {Menu} from "primereact/menu";
+import {connect} from "react-redux";
+import {logoutUser} from "../../actions/authActions";
+import { updateCart } from "../../actions/cartActions";
+import {Growl} from "primereact/growl";
+
 
 class singleProductCard extends Component {
 
@@ -17,7 +26,8 @@ class singleProductCard extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            products: []
+            products: [],
+            cartProducts: []
 
         };
         this.state.products = props.products
@@ -25,10 +35,63 @@ class singleProductCard extends Component {
 
     }
 
+    componentDidMount() {
+        if ((Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object)){
+
+            this.setState({
+                cartProducts:this.props.cart.cart.products
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.cart !== this.props.cart){
+            this.setState({
+                cartProducts:this.props.cart.cart.products
+            });
+        }
+    }
+
+    addToCart = (product) =>{
+
+        let result = this.state.cartProducts.map(({ product_id }) => product_id)
+
+        if (result.includes(product._id)){
+            this.growl.show({severity: 'error', summary: 'Oops', detail: 'This item already exists in cart'});
+        }
+        else{
+            let total = (product.productPrice - (product.productDiscount/100) * product.productPrice) * 1;
+
+            const newProduct = {
+                product_id: product._id,
+                qty: 1,
+                price: product.productPrice,
+                discount: product.productDiscount,
+                total: total
+            };
+
+            this.setState({
+                cartProducts: [
+                    ...this.state.cartProducts,
+                    newProduct
+                ]
+            }, () => {
+                const updatedCart = {
+                    user_id: this.props.cart.cart.user_id,
+                    products: this.state.cartProducts
+                };
+
+                this.props.updateCart(this.props.cart.cart._id, updatedCart);
+
+                this.growl.show({severity: 'success', summary: 'Success Message', detail: 'Item added to cart.'});
+            });
+        }
+    };
+
     render() {
         return (
             <>
-
+                           <Growl ref={(el) => this.growl = el} baseZIndex={9999} />
                            <Card style={{ width: "18rem" }}>
                                <CardImg
                                    alt="..."
@@ -42,8 +105,8 @@ class singleProductCard extends Component {
                                    <Button className="text-center ml-5"
 
                                        color="primary"
-                                       href="#pablo"
-                                       onClick={e => e.preventDefault()}
+                                       href=""
+                                           onClick={() => this.addToCart(this.state.products)}
                                    >
                                        <i className="fas fa-cart-plus"></i>
                                        ADD TO CART
@@ -52,7 +115,7 @@ class singleProductCard extends Component {
                                    <Button className = "text-center mt-3 ml-4"
 
                                        color="danger"
-                                       href="#pablo"
+                                       href=""
                                        onClick={e => e.preventDefault()}
                                    >
                                        <i className="fas fa-heart ml-2"></i>
@@ -71,4 +134,19 @@ class singleProductCard extends Component {
 
 }
 
-export default singleProductCard;
+singleProductCard.propTypes = {
+    logoutUser: PropTypes.func,
+    updateCart: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    cart: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+    auth: state.auth,
+    cart: state.cart
+});
+
+export default connect(
+    mapStateToProps,
+    { logoutUser, updateCart })
+(singleProductCard);

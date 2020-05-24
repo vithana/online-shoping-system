@@ -128,7 +128,7 @@ class Checkout extends Component{
                 />
 
                 <div className="container-fluid mt-5 pt-5" style={{backgroundColor:"#f0f0f0", minHeight:"80vh"}}>
-                    <Growl ref={(el) => this.growl = el} baseZIndex="9999"/>
+                    <Growl ref={(el) => this.growl = el} baseZIndex={9999}/>
                     <Row className="justify-content-center mt-5">
                         <Col md="5">
                             <Card className="py-3 px-5">

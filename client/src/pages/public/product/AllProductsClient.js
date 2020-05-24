@@ -3,8 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logoutUser} from "../../../actions/authActions";
-
-import Singleproductcard from "../../../components/product/singleProductCard"
+ import Singleproductcard from "../../../components/product/singleProductCard"
  import {Menu} from "primereact/menu";
  import LandingNavbar from "../../../components/Navbar/LandingNavbar";
  // import LandingHeader from "../../../components/Header/LandingHeader";
