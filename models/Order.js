@@ -16,6 +16,10 @@ const OrderSchema = new Schema(
             type: String,
             required: true
         },
+        card_number:{
+            type: String,
+            required: false
+        },
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "users",
@@ -39,6 +43,10 @@ const OrderSchema = new Schema(
                 type: Number,
                 default: 0,
             },
+            total:{
+                type: Number,
+                required: true,
+            }
         }],
         billing_address: {
           type: String,
