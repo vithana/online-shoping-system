@@ -131,7 +131,7 @@ function LandingNavbar(props) {
                                     }
                                     {
                                         (user.userRole === "user") ?(
-                                            <NavLink className={classnames(navbarFontColor)} to="/user/index" tag={Link}>
+                                            <NavLink className={classnames(navbarFontColor)} to="/user/" tag={Link}>
                                                 Dashboard
                                             </NavLink>
                                         ) : null

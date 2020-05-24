@@ -133,7 +133,7 @@ class Register extends Component {
                                                     id="name"
                                                     className={classnames("", {
                                                         invalid: errors.name
-                                                    })} placeholder="Name"
+                                                    })} placeholder="Full name"
                                                     type="text"
                                                 />
                                             </InputGroup>
