@@ -106,6 +106,11 @@ function LandingNavbar(props) {
                         (user.isAuthenticated)? (
                             <Nav navbar>
                                 <NavItem>
+                                    <NavLink className={classnames(navbarFontColor)} to="/product/all" tag={Link}>
+                                        Products
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink className={classnames(" notification", navbarFontColor)} to="/cart" tag={Link}>
                                         <i className="fa fa-shopping-cart" title="View Cart"></i>&nbsp;
                                         {
@@ -147,6 +152,11 @@ function LandingNavbar(props) {
                             </Nav>
                         ) : (
                             <Nav navbar>
+                                <NavItem>
+                                    <NavLink className={classnames(navbarFontColor)} to="/product/all" tag={Link}>
+                                        Products
+                                    </NavLink>
+                                </NavItem>
                                 <NavItem>
                                     <NavLink className={classnames(navbarFontColor)} to="/login" tag={Link}>
                                         Login
