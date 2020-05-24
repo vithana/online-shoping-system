@@ -29,6 +29,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
 import "./App.css";
+import AllProductsClient from "./pages/public/product/AllProductsClient";
 
 
 if (localStorage.jwtToken) {
@@ -61,6 +62,7 @@ class App extends Component {
               {/*<Route exact path="/" component={Landing} />*/}
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/product/all" component={ AllProductsClient }/>
               {/*<Redirect from="/" to="/admin/index" />*/}
           </div>
         </Router>

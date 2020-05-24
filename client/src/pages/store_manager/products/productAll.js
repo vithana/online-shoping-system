@@ -21,12 +21,13 @@ import {
     Table,
     Container,
     Row,
-    UncontrolledTooltip
+    UncontrolledTooltip, Modal, CardBody, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText, Input, Button
 } from "reactstrap";
 import axios from "axios";
 import {GET_ERRORS} from "../../../actions/types";
 import index from "../../../reducers";
 import {connect} from "react-redux";
+import _findIndex from "lodash.findindex";
 
 class ProductAll extends Component{
     _isMounted = false;
@@ -36,7 +37,19 @@ class ProductAll extends Component{
         this.state = {
             error: null,
             isLoaded: false,
-            products: []
+            products: [],
+            category: [],
+
+            product_id : "",
+            productName : "" ,
+            productDescription :"",
+            productPrice : "",
+            productStockQuantity : "",
+            productDiscount : "",
+            productColor : "",
+            productAvailableSize: "",
+            category_id : "",
+            productImg : ""
 
         };
         console.log(this.props.auth.user.id)
@@ -60,11 +73,89 @@ class ProductAll extends Component{
                     err
                 });
             });
+
     }
 
     componentWillUnmount() {
         this._isMounted = false;
     }
+
+    toggleModal = (state,product) => {
+        this.setState({
+            [state]: !this.state[state],
+            product_id : product ? product._id : "",
+            productName : product ? product.productName : "",
+            productDescription: product ? product.productDescription:"",
+            productPrice: product ? product.productPrice : "",
+            productStockQuantity: product ? product.productStockQuantity : "",
+            productDiscount : product ? product.productDiscount: "",
+            productColor : product ? product.productColor: "",
+            productAvailableSize : product ? product.productAvailableSize : "",
+            productImg : product ? product.productImg : ""
+
+        });
+    };
+
+    onChange = e => {
+        this.setState({ [e.target.id]: e.target.value });
+    };
+
+    editProduct = (e) => {
+        e.preventDefault();
+        const updateProduct = {
+            productName: this.state.productName,
+            productDescription: this.state.productDescription,
+            productPrice: this.state.productPrice,
+            productStockQuantity: this.state.productStockQuantity,
+            productDiscount: this.state.productDiscount,
+            productColor : this.state.productColor,
+            productAvailableSize : this.state.productAvailableSize,
+            productImg : this.state.productImg,
+            category_id : this.state.products.category_id,
+            user_id :this.props.auth.user.id
+        };
+
+        axios
+            .post("/api/products/update/" + this.props.auth.user.id , updateProduct)
+            .then(res => {
+
+                this.setState({
+                    products: [
+                        ...this.state.products,
+                        res.data
+                    ]
+                });
+                console.log(res.data)
+
+            })
+            .catch(err =>{
+                    console.log(err.response.data);
+                    this.setState({
+                        errors1: err.response.data
+                    });
+                    console.log(this.state.errors1)
+                }
+            );
+        console.log(updateProduct)
+    };
+
+    deleteproduct = (id) =>{
+        axios
+            .delete("/api/products/delete/" + id)
+            .then(res => {
+                let products = this.state.products;
+                let productIndex = _findIndex(this.state.products, {id : id});
+
+                products.splice(productIndex, 1);
+                this.setState({
+                    products : products,
+                });
+                this.toggleModal("notificationModal", null)
+            })
+            .catch(err =>{
+                console.log(err);
+            });
+    };
 
 
     render(){
@@ -119,7 +210,33 @@ class ProductAll extends Component{
                                                     <td scope="row">{value.productAvailableSize}</td>
                                                     <td scope="row">{value.productDiscount}%</td>
                                                     <td scope="row">{value.productStockQuantity}</td>
-                                                    <td scope="row">Category</td>
+                                                    <td scope="row">{value.category_id}</td>
+                                                    <td className="text-right">
+                                                        <UncontrolledDropdown>
+                                                            <DropdownToggle
+                                                                className="btn-icon-only text-light"
+                                                                href="#pablo"
+                                                                role="button"
+                                                                size="sm"
+                                                                color=""
+                                                                onClick={e => e.preventDefault()}
+                                                            >
+                                                                <i className="fas fa-ellipsis-v" />
+                                                            </DropdownToggle>
+                                                            <DropdownMenu className="dropdown-menu-arrow" right>
+                                                                <DropdownItem onClick={() => this.toggleModal("updateProduct", value)}>
+                                                                    <i className="fa fa-edit text-primary" />&nbsp;Update Produt
+
+                                                                </DropdownItem>
+
+                                                                <DropdownItem onClick={() => this.toggleModal("notificationModal", value)}>
+                                                                    <i className="fa fa-trash text-danger" />&nbsp;Delete Product
+
+                                                                </DropdownItem>
+                                                            </DropdownMenu>
+                                                        </UncontrolledDropdown>
+                                                    </td>
+
                                                 </tr>
                                             )
                                         })
@@ -166,6 +283,238 @@ class ProductAll extends Component{
                         </div>
                     </Row>
                 </Container>
+
+
+                <Modal
+                    className="modal-dialog-centered"
+                    size="sm"
+                    isOpen={this.state.updateProduct}
+                    toggle={() => this.toggleModal("updateProduct",null)}
+                >
+                    <div className="modal-body p-0">
+                        <Card className="bg-secondary shadow border-0">
+                            <CardBody className="px-lg-3 py-lg-3">
+                                <div className="text-center text-muted mb-4">
+                                    <h3 className="font-weight-bold">Update Product ({this.state.productName})</h3>
+                                </div>
+                                <Form role="form">
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-tshirt"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Product Name"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productName}
+                                                   id="productName"
+                                                   type="text"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-edit"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Description of Product"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productDescription}
+                                                   id="productDescription"
+                                                   type="text"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-dollar-sign"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Unit Price"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productPrice}
+                                                   id="productPrice"
+                                                   type="number"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-layer-group"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Stock Quantity"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productStockQuantity}
+                                                   id="productStockQuantity"
+                                                   type="number"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-percent"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Discount"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productDiscount}
+                                                   id="productDiscount"
+                                                   type="number"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-palette"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Available Colors"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productColor}
+                                                   id="productColor"
+                                                   type="text"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <InputGroup className="input-group-alternative">
+                                            <InputGroupAddon addonType="prepend">
+                                                <InputGroupText>
+                                                    <i className="fas fa-sitemap"></i>
+                                                </InputGroupText>
+                                            </InputGroupAddon>
+                                            <Input placeholder="Available SIZE"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productAvailableSize}
+                                                   id="productAvailableSize"
+                                                   type="text"
+                                            />
+
+                                        </InputGroup>
+                                        <span className="text-red">{}</span>
+                                    </FormGroup>
+
+                                    <FormGroup className="mb-3">
+                                        <div className="custom-file">
+                                            <input type="file"
+                                                   className="custom-file-input"
+                                                   id="productImg"
+                                                   onChange={this.onChange}
+                                                   value={this.state.productImg}/>
+                                            <label className="custom-file-label" htmlFor="customFile">Upload Image</label>
+                                        </div>
+                                    </FormGroup>
+
+
+                                    <div className="text-center">
+                                        <Button
+                                            className="my-4"
+                                            color="primary"
+                                            type="button"
+                                            data-dismiss="modal"
+                                            onClick={(e) => this.editProduct(e)}
+                                        >
+                                            Update Product
+                                        </Button>
+                                        <Button
+                                            className="text-white ml-auto"
+                                            color="danger"
+                                            data-dismiss="modal"
+                                            type="button"
+                                            onClick={() => this.toggleModal("updateProduct", null)}
+                                        >
+                                            Close
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </CardBody>
+                        </Card>
+                    </div>
+                </Modal>
+
+
+                {/*delete modal*/}
+                <Modal
+                    className="modal-dialog-centered modal-danger"
+                    contentClassName="bg-gradient-danger"
+                    isOpen={this.state.notificationModal}
+                    toggle={() => this.toggleModal("notificationModal", null)}
+                >
+                    <div className="modal-header">
+                        <button
+                            aria-label="Close"
+                            className="close"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={() => this.toggleModal("notificationModal", null)}
+                        >
+                            <span aria-hidden={true}>×</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="py-3 text-center">
+                            <i className="ni ni-bell-55 ni-3x" />
+                            <h4 className="heading mt-4">Delete Product</h4>
+                            <p>
+                                You are about to delete this Product.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <Button
+                            className="btn-white"
+                            color="default"
+                            type="button"
+                            onClick={() => this.deleteproduct(this.state.product_id)}
+
+                        >
+                            Confirm
+                        </Button>
+                        <Button
+                            className="text-white ml-auto"
+                            color="link"
+                            data-dismiss="modal"
+                            type="button"
+                            onClick={() => this.toggleModal("notificationModal", null)}
+                        >
+                            Close
+                        </Button>
+                    </div>
+                </Modal>
+
+
             </>
         )
     }

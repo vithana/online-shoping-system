@@ -8,26 +8,27 @@ import {
     CardTitle,
     CardText, PaginationLink
 } from "reactstrap";
-import axios from "axios";
+import {Menu} from "primereact/menu";
 
 class singleProductCard extends Component {
-    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             products: []
+
         };
+        this.state.products = props.products
+        console.log(props.products)
 
     }
 
     render() {
         return (
             <>
-                {
-                    this.products.map((value, index) => {
-                       return(
+
                            <Card style={{ width: "18rem" }}>
                                <CardImg
                                    alt="..."
@@ -35,37 +36,35 @@ class singleProductCard extends Component {
                                    top
                                />
                                <CardBody>
-                                   <CardTitle className="text-center font-weight-bold">{value.productName}</CardTitle>
-                                   <CardText className="text-center">LKR {value.productPrice}</CardText>
-                                   <CardText className="text-center"><label className="font-weight-bold">Colors :</label>{value.productColor}</CardText>
-                                   <Button
+                                   <CardTitle className="text-center font-weight-bold">{this.state.products.productName}</CardTitle>
+                                   <CardText className="text-center">LKR {this.state.products.productPrice}</CardText>
+                                   <CardText className="text-center"><label className="font-weight-bold">Colors :</label>{this.state.products.productColor}</CardText>
+                                   <Button className="text-center ml-5"
 
                                        color="primary"
                                        href="#pablo"
                                        onClick={e => e.preventDefault()}
                                    >
                                        <i className="fas fa-cart-plus"></i>
-                                       <span className="sr-only font-weight-bold">ADD TO CART</span>
+                                       ADD TO CART
                                    </Button>
 
-                                   <Button
+                                   <Button className = "text-center mt-3 ml-4"
 
                                        color="danger"
                                        href="#pablo"
                                        onClick={e => e.preventDefault()}
                                    >
-                                       <i className="fas fa-heart"></i>
-                                       <span className="sr-only font-weight-bold">ADD TO WISH LIST</span>
+                                       <i className="fas fa-heart ml-2"></i>
+                                       ADD TO WISH LIST
                                    </Button>
                                </CardBody>
                            </Card>
 
-                       )
-
-                    })
 
 
-                }
+
+
             </>
         );
     }

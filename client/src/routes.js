@@ -14,6 +14,7 @@ import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
+import AddProduct from "./pages/store_manager/products/AddProduct";
 
 var routes = [
     {
@@ -142,8 +143,8 @@ var routes = [
 
     {
         path: "/product/all",
-        name: "Products",
-        icon: "ni ni-tv-2 text-primary",
+        name: "All Products",
+        icon: "fas fa-store",
         component: ProductAll,
         layout: "/storemanager",
         sidebar_link: true
@@ -154,8 +155,17 @@ var routes = [
         name: "All Products",
         icon: "ni ni-circle-08 text-pink",
         component: AllProductsClient,
-        layout: "/public",
+        layout: "/",
         sidebar_link: false
+    },
+
+    {
+        path: "/product/add",
+        name: "Add Products",
+        icon: "fas fa-plus",
+        component: AddProduct,
+        layout: "/storemanager",
+        sidebar_link: true
     },
 
 

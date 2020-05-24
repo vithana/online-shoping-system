@@ -41,13 +41,13 @@ router
     );
 
 
-// @route POST api/products/store
+// @route POST api/products/insert
 // @desc Insert product
 // @access Public
 router
     .route("/insert")
     .post(
-       upload.single("productImg"),
+       //upload.single("productImg"),
        productController.insertProduct
     );
 
@@ -81,6 +81,17 @@ router
     .get(
         productController.findViewByProductManager
     );
+
+// @route GET api/products/Category/:id
+// @desc Get product sorted by Category
+// @access Public
+router
+    .route("/Category/:id")
+    .get(
+        productController.findViewByCategoryId
+    );
+
+
 
 
 module.exports = router;

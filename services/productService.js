@@ -156,7 +156,33 @@ const findViewByproductManager = (id , res) => {
         });
     });
 
-}
+};
+
+const findViewByCatrgoryId = (id , res) => {
+    let query = {
+        category_id : id,
+    };
+
+    product.find(query)
+        .then(product => {
+            if(!product) {
+                return res.status(404).send({
+                    message: "Review not fond this category "
+                });
+            }
+            res.send(product);
+        }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found for this category"
+            });
+        }
+        return res.status(500).send({
+            message: "Error getting review for this category"
+        });
+    });
+
+};
 
 module.exports = {
     findAllproduct: () => findAllproduct(),
@@ -164,5 +190,6 @@ module.exports = {
     insertProduct: (body) => insertProduct(body),
     updateProduct: (id, body , res) => updateProduct(id, body , res),
     findOneproduct: (id , res) => findOneproduct(id , res),
-    findViewByproductManager: (id, res) => findViewByproductManager(id , res)
+    findViewByproductManager: (id, res) => findViewByproductManager(id , res),
+    findViewByCatrgoryId: (id,res) => findViewByCatrgoryId(id,res)
 };
