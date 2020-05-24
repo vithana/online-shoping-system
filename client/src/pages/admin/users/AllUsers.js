@@ -201,7 +201,7 @@ class AllUsers extends Component{
 
                                                                     onClick={() => this.toggleModal("changePasswordModal",value._id)}
 
-                                                                >
+                                                                ><i className="fas fa-edit text-primary"></i>&nbsp;
                                                                     Update Password
                                                                 </DropdownItem>
                                                                 <DropdownItem
@@ -209,7 +209,7 @@ class AllUsers extends Component{
 
                                                                     //onClick={this.onUserDeleteClick(value._id)}
                                                                     onClick={() => this.toggleModal("notificationModal",value._id)}
-                                                                >
+                                                                ><i className="fa fa-trash text-danger" />&nbsp;
                                                                    Delete
                                                                 </DropdownItem>
 
