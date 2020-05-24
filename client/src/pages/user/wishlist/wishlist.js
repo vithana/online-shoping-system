@@ -204,11 +204,12 @@ class WishList extends Component {
                                     {
                                         (Object.keys(this.props.wishlist.wishlist) != 0 && this.props.wishlist.wishlist.constructor === Object) ?
                                             (this.state.wishlistItems.map((value, index) => {
+                                                    const image = 'http://localhost:5000/uploads/'+value.productImage;
                                                     return (
                                                         <tr key={index}>
                                                             <td>
                                                                 <img
-                                                                    src='http://localhost:5000/uploads/productImg-1589998617467.jpg'
+                                                                    src={image}
                                                                     style={{
                                                                         display: 'inline-block',
                                                                         margin: '2px 0 2px 2px',
