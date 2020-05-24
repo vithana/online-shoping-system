@@ -33,8 +33,10 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
 import "./App.css";
+import WishList from "./pages/user/wishlist/wishlist";
 import AllProductsClient from "./pages/public/product/AllProductsClient";
 import Checkout from "./pages/user/orders/Checkout";
+import {getWishlistByUser} from "./actions/wishlistActions";
 import singleProduct from "./pages/public/product/singleProduct";
 
 
@@ -44,6 +46,7 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(token);
   store.dispatch(setCurrentUser(decoded));
   store.dispatch(getCartByUser(decoded.id));
+  store.dispatch(getWishlistByUser(decoded.id));
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
@@ -67,6 +70,7 @@ class App extends Component {
               <PrivateRoute path="/user" component={UserLayout} />
               <PrivateRoute exact path="/cart" component={UserCart} />
               <PrivateRoute exact path="/checkout" component={Checkout} />
+              <PrivateRoute exact path="/wishlist" component={WishList}/>
             </Switch>
               <Route exact path="/" component={PublicLayout} />
               {/*<Route exact path="/" component={Landing} />*/}

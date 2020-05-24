@@ -10,13 +10,16 @@ import {
     CardBody,
     CardImg,
     CardTitle,
-    CardText, PaginationLink
+    CardText, PaginationLink, Nav, NavItem, NavLink
 } from "reactstrap";
 import {Menu} from "primereact/menu";
 import {connect} from "react-redux";
 import {logoutUser} from "../../actions/authActions";
 import { updateCart } from "../../actions/cartActions";
 import {Growl} from "primereact/growl";
+import classnames from "classnames";
+import {Link} from "react-router-dom";
+import { updateWishList} from "../../actions/wishlistActions";
 
 
 class singleProductCard extends Component {
@@ -42,6 +45,13 @@ class singleProductCard extends Component {
                 cartProducts:this.props.cart.cart.products
             });
         }
+        if((Object.keys(this.props.wishlist.wishlist).length != 0 && this.props.wishlist.wishlist.constructor ===Object)){
+            this.setState({
+                wishlistItems: this.props.wishlist.wishlist.products
+
+            })
+
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,6 +60,16 @@ class singleProductCard extends Component {
                 cartProducts:this.props.cart.cart.products
             });
         }
+
+        if(prevProps.wishlist !==  this.props.wishlist){
+            this.setState({
+                wishlistItems: this.props.wishlist.wishlist.products
+
+            })
+
+        }
+        console.log(this.state.wishlistItems);
+
     }
 
     addToCart = (product) =>{
@@ -88,6 +108,45 @@ class singleProductCard extends Component {
         }
     };
 
+
+
+
+    addToWishlist = (product) =>{
+
+        let result = this.state.wishlistItems.map(({ product_id }) => product_id);
+
+        if (result.includes(product._id)){
+            this.growl.show({severity: 'error', summary: 'Oops', detail: 'This item is already in wish list'});
+        }
+        else{
+
+
+            const newItem = {
+                product_id: product._id
+            };
+
+            this.setState({
+                wishlistItems: [
+                    ...this.state.wishlistItems,
+                    newItem
+                ]
+            }, () => {
+                const updatedWishlist = {
+                    user_id: this.props.wishlist.wishlist.user_id,
+                    products: this.state.wishlistItems
+                };
+
+                this.props.updateWishList(this.props.wishlist.wishlist._id, updatedWishlist);
+
+                this.growl.show({severity: 'success', summary: 'Success Message', detail: 'Item added to the wish list.'});
+            });
+        }
+    };
+
+
+
+
+
     render() {
         return (
             <>
@@ -102,25 +161,50 @@ class singleProductCard extends Component {
                                    <CardTitle className="text-center font-weight-bold">{this.state.products.productName}</CardTitle>
                                    <CardText className="text-center">LKR {this.state.products.productPrice}</CardText>
                                    <CardText className="text-center"><label className="font-weight-bold">Colors :</label>{this.state.products.productColor}</CardText>
-                                   <Button className="text-center ml-5"
 
-                                       color="primary"
-                                       href=""
-                                           onClick={() => this.addToCart(this.state.products)}
-                                   >
-                                       <i className="fas fa-cart-plus"></i>
-                                       ADD TO CART
-                                   </Button>
+                                   {
+                                       (this.props.auth.isAuthenticated) ? (
+                                           <Button className="text-center ml-5"
+                                                   color="primary"
+                                                   href=""
+                                                   onClick={() => this.addToCart(this.state.products)}
+                                           >
+                                               <i className="fas fa-cart-plus"></i>
+                                               ADD TO CART
+                                           </Button>
+                                       ): (
+                                           <Link className="btn btn-primary text-center ml-5"
+                                                   color="primary"
+                                                   to="/login"
+                                           >
+                                               <i className="fas fa-cart-plus"></i>
+                                               ADD TO CART
+                                           </Link>
+                                       )
+                                   }
 
-                                   <Button className = "text-center mt-3 ml-4"
+                                   {
+                                       (this.props.auth.isAuthenticated) ? (
+                                           <Button className = "text-center mt-3 ml-4"
 
-                                       color="danger"
-                                       href=""
-                                       onClick={e => e.preventDefault()}
-                                   >
-                                       <i className="fas fa-heart ml-2"></i>
-                                       ADD TO WISH LIST
-                                   </Button>
+                                                   color="danger"
+                                                   href=""
+                                                   onClick={() => this.addToWishlist(this.state.products)}
+                                           >
+                                               <i className="fas fa-heart ml-2"></i>
+                                               ADD TO WISH LIST
+                                           </Button>
+                                       ): (
+                                           <Link className = "btn btn-danger text-center mt-3 ml-4"
+                                                   to="/login"
+                                                   color="danger"
+                                                   href=""
+                                           >
+                                               <i className="fas fa-heart ml-2"></i>
+                                               ADD TO WISH LIST
+                                           </Link>
+                                       )
+                                   }
                                </CardBody>
                            </Card>
 
@@ -137,16 +221,18 @@ class singleProductCard extends Component {
 singleProductCard.propTypes = {
     logoutUser: PropTypes.func,
     updateCart: PropTypes.func.isRequired,
+    updateWishList: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     cart: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    cart: state.cart
+    cart: state.cart,
+    wishlist: state.wishlist
 });
 
 export default connect(
     mapStateToProps,
-    { logoutUser, updateCart })
+    { logoutUser, updateCart, updateWishList })
 (singleProductCard);

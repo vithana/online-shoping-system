@@ -125,11 +125,11 @@ class AllProductsClient extends Component{
 
                 <section>
                     <div className="container-fluid mt-5 pt-5" style={{backgroundColor:"#f0f0f0", minHeight:"80vh"}}>
-                        <div className="float-left ml--2" >
+                        <div className="float-left ml--2 mt-3" >
                             <Menu  model = {items} style={{minHeight : "80vh"}} />
                             {console.log(items)}
                         </div>
-                        <div className="row">
+                        <div className="row mt-3">
 
                           {
 
