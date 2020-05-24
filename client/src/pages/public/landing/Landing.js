@@ -10,7 +10,6 @@ class Landing extends Component{
     render() {
         return (
             <>
-
             </>
         )
     }

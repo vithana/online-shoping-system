@@ -24,7 +24,9 @@ class Public extends React.Component {
     }
     getRoutes = routes => {
         return routes.map((prop, key) => {
+
             if (prop.layout === "/") {
+                console.log(prop.layout, prop.path);
                 return (
                     <Route
                         exact path={prop.layout + prop.path}
@@ -46,6 +48,7 @@ class Public extends React.Component {
                     <LandingHeader
                         {...this.props}
                     />
+
                     <Switch>
 
                         {this.getRoutes(routes)}
