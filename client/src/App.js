@@ -35,6 +35,7 @@ import "./assets/scss/argon-dashboard-react.scss";
 import "./App.css";
 import AllProductsClient from "./pages/public/product/AllProductsClient";
 import Checkout from "./pages/user/orders/Checkout";
+import singleProduct from "./pages/public/product/singleProduct";
 
 
 if (localStorage.jwtToken) {
@@ -72,6 +73,7 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/product/all" component={ AllProductsClient }/>
+             <Route exact path="/product/single" component={ singleProduct }/>
               {/*<Redirect from="/" to="/admin/index" />*/}
           </div>
         </Router>

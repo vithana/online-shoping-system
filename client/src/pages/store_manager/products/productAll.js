@@ -28,6 +28,7 @@ import {GET_ERRORS} from "../../../actions/types";
 import index from "../../../reducers";
 import {connect} from "react-redux";
 import _findIndex from "lodash.findindex";
+import StoreManagerHeader from "../../../components/Header/StoreManagerHeader";
 
 class ProductAll extends Component{
     _isMounted = false;
@@ -163,7 +164,7 @@ class ProductAll extends Component{
         let src = "http://localhost:5000/uploads/"
          return (
             <>
-                <Header/>
+                <StoreManagerHeader/>
 
                 <Container className="mt--7" fluid>
                     {/* Table */}

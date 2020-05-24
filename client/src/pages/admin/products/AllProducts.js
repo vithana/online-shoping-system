@@ -103,7 +103,7 @@ class AllProducts extends Component{
                                                             <a  className="avatar rounded-circle mr-3" >
                                                                 <img
                                                                     alt="..."
-                                                                    src = "http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                                                    src = {"http://localhost:5000/uploads/"+value.productImage}
                                                                 />
                                                             </a>
                                                             <Media>
