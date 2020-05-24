@@ -34,6 +34,8 @@ import {
     Row,
     Col
 } from "reactstrap";
+import {connect} from "react-redux";
+import {logoutUser} from "../../actions/authActions";
 
 class Sidebar extends React.Component {
     state = {
@@ -85,6 +87,12 @@ class Sidebar extends React.Component {
             }
         });
     };
+
+    onLogoutClick = e => {
+        e.preventDefault();
+        this.props.logoutUser();
+    };
+
     render() {
         const { bgColor, routes, logo, layout } = this.props;
         let navbarBrandProps;
@@ -126,21 +134,12 @@ class Sidebar extends React.Component {
                     ) : null}
                     {/* User */}
                     <Nav className="align-items-center d-md-none">
-                        <UncontrolledDropdown nav>
-                            <DropdownToggle nav className="nav-link-icon">
-                                <i className="ni ni-bell-55" />
-                            </DropdownToggle>
-                            <DropdownMenu
-                                aria-labelledby="navbar-default_dropdown_1"
-                                className="dropdown-menu-arrow"
-                                right
-                            >
-                                <DropdownItem>Action</DropdownItem>
-                                <DropdownItem>Another action</DropdownItem>
-                                <DropdownItem divider />
-                                <DropdownItem>Something else here</DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
+                        <NavItem>
+                            <NavLink className="nav-link-icon" to="/" tag={Link}>
+                                <i className="ni ni-planet" />
+                                {/*<span className="nav-link-inner--text">Public Site</span>*/}
+                            </NavLink>
+                        </NavItem>
                         <UncontrolledDropdown nav>
                             <DropdownToggle nav>
                                 <Media className="align-items-center">
@@ -156,24 +155,15 @@ class Sidebar extends React.Component {
                                 <DropdownItem className="noti-title" header tag="div">
                                     <h6 className="text-overflow m-0">Welcome!</h6>
                                 </DropdownItem>
-                                <DropdownItem to="/admin/user-profile" tag={Link}>
+                                <DropdownItem to={this.props.UserProfileLink} tag={Link}>
                                     <i className="ni ni-single-02" />
                                     <span>My profile</span>
                                 </DropdownItem>
-                                <DropdownItem to="/admin/user-profile" tag={Link}>
-                                    <i className="ni ni-settings-gear-65" />
-                                    <span>Settings</span>
-                                </DropdownItem>
-                                <DropdownItem to="/admin/user-profile" tag={Link}>
-                                    <i className="ni ni-calendar-grid-58" />
-                                    <span>Activity</span>
-                                </DropdownItem>
-                                <DropdownItem to="/admin/user-profile" tag={Link}>
-                                    <i className="ni ni-support-16" />
-                                    <span>Support</span>
-                                </DropdownItem>
+
                                 <DropdownItem divider />
-                                <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                                <DropdownItem href="#pablo"
+                                              onClick={this.onLogoutClick}
+                                >
                                     <i className="ni ni-user-run" />
                                     <span>Logout</span>
                                 </DropdownItem>
@@ -240,7 +230,18 @@ Sidebar.propTypes = {
         imgSrc: PropTypes.string.isRequired,
         // the alt for the img
         imgAlt: PropTypes.string.isRequired
-    })
+    }),
+    logoutUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
-export default Sidebar;
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { logoutUser }
+)(Sidebar);
+
+// export default Sidebar;

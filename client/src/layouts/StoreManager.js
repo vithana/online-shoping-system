@@ -42,9 +42,11 @@ class StoreManager extends React.Component {
                     routes={routes}
                     logo={{
                         innerLink: "/storemanager",
-                        imgSrc: require("../assets/img/brand/argon-react.png"),
+                        imgSrc: require("../assets/img/brand/logo.jpg"),
                         imgAlt: "..."
                     }}
+                    UserProfileLink = "/storemanager/userProfile"
+
                 />
                 <div className="main-content" ref="mainContent">
                     <Navbar

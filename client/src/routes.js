@@ -15,6 +15,9 @@ import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 import AddProduct from "./pages/store_manager/products/AddProduct";
+import AllProducts from "./pages/admin/products/AllProducts";
+import UserCart from "./pages/user/carts/UserCart";
+import Checkout from "./pages/user/orders/Checkout";
 
 var routes = [
     {
@@ -54,7 +57,7 @@ var routes = [
     },
 
     {
-        path: "/index",
+        path: "/",
         name: "Dashboard",
         icon: "ni ni-tv-2 text-primary",
         component: Dashboard,
@@ -124,6 +127,24 @@ var routes = [
     },
 
     {
+        path: "/cart",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: UserCart,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
+        path: "/checkout",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: Checkout,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
         path: "/users/all",
         name: "Users",
         icon: "fas fa-users text-primary",
@@ -165,6 +186,14 @@ var routes = [
         icon: "fas fa-plus",
         component: AddProduct,
         layout: "/storemanager",
+        sidebar_link: true
+    },
+    {
+        path: "/products/all",
+        name: "Products",
+        icon: "fas fa-tshirt text-primary",
+        component: AllProducts,
+        layout: "/admin",
         sidebar_link: true
     },
 

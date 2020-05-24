@@ -3,12 +3,20 @@ import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING,GET_USER } from "./types";
-
+import {getCartByUser} from "./cartActions";
+import {createCart } from "./cartActions";
 // User Register
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
-    .then(res => history.push("/login"))
+    .then(res => {
+        const newCart = {
+            user_id: res.data._id,
+            products: []
+        };
+        dispatch(createCart(newCart));
+        history.push("/login");
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -27,6 +35,7 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
+      dispatch(getCartByUser(decoded.id));
     })
     .catch(err =>
       dispatch({

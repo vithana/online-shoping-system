@@ -18,16 +18,27 @@ import {
 function LandingNavbar(props) {
     const user = props.auth;
 
-    const [navbarColor, setNavbarColor] = React.useState({WebkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
-    const [navbarFontColor, setNavbarFontColor] = React.useState("text-white");
+    const [navbarColor, setNavbarColor] = React.useState({WebkitTransition: "all .4s", background: props.navBarColor, paddingTop: "25px", boxShadow: "none", fontWeight: 700});
+    const [navbarFontColor, setNavbarFontColor] = React.useState(props.navBarFontColor);
     const [navbarCollapse, setNavbarCollapse] = React.useState(false);
+    const [productCount, setProductCount] = React.useState(0);
 
     const toggleNavbarCollapse = () => {
         setNavbarCollapse(!navbarCollapse);
         document.documentElement.classList.toggle("nav-open");
     };
 
+    const getProductCountInCart = () => {
+        if (Object.keys(props.cart.cart).length != 0 && props.cart.cart.constructor === Object){
+            setProductCount(props.cart.cart.products.length);
+        }else{
+            setProductCount(0);
+        }
+    };
+
     React.useEffect(() => {
+        getProductCountInCart();
+
         const updateNavbarColor = () => {
             if (
                 document.documentElement.scrollTop > 299 ||
@@ -39,8 +50,8 @@ function LandingNavbar(props) {
                 document.documentElement.scrollTop < 300 ||
                 document.body.scrollTop < 300
             ) {
-                setNavbarColor({WebkitTransition: "all .4s", background: "transparent", paddingTop: "25px", boxShadow: "none", fontWeight: 700});
-                setNavbarFontColor("text-white");
+                setNavbarColor({WebkitTransition: "all .4s", background: props.navBarColor, paddingTop: "25px", boxShadow: "none", fontWeight: 700});
+                setNavbarFontColor(props.navBarFontColor);
             }
         };
 
@@ -49,6 +60,8 @@ function LandingNavbar(props) {
         return function cleanup() {
             window.removeEventListener("scroll", updateNavbarColor);
         };
+
+
     });
 
     const onLogoutClick = e => {
@@ -92,6 +105,16 @@ function LandingNavbar(props) {
                         (user.isAuthenticated)? (
                             <Nav navbar>
                                 <NavItem>
+                                    <NavLink className={classnames(" notification", navbarFontColor)} to="/cart" tag={Link}>
+                                        <i className="fa fa-shopping-cart" title="View Cart"></i>&nbsp;
+                                        {
+                                            (productCount != 0)? (
+                                                <span className="badge badge-danger">{productCount}</span>
+                                            ):null
+                                        }
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     {
                                         (user.userRole === "admin") ? (
                                             <NavLink className={classnames(navbarFontColor)} to="/admin" tag={Link}>
@@ -108,7 +131,7 @@ function LandingNavbar(props) {
                                     }
                                     {
                                         (user.userRole === "user") ?(
-                                            <NavLink className={classnames(navbarFontColor)} to="/user/index" tag={Link}>
+                                            <NavLink className={classnames(navbarFontColor)} to="/user/" tag={Link}>
                                                 Dashboard
                                             </NavLink>
                                         ) : null

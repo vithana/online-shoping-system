@@ -6,14 +6,14 @@ import { Container } from "reactstrap";
 
 // core components
 import LandingNavbar from "../components/Navbar/LandingNavbar";
-import LandingHeader from "../components/Header/LandingHeader";
-// import AdminFooter from "../components/Footer/Footer";
+import Footer from "../components/Footer/PublicFooter";
 // import Sidebar from "../components/Sidebar/Sidebar";
 
 import routes from "../routes";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logoutUser} from "../actions/authActions";
+import AdminFooter from "../components/Footer/Footer";
 
 
 class Public extends React.Component {
@@ -24,9 +24,7 @@ class Public extends React.Component {
     }
     getRoutes = routes => {
         return routes.map((prop, key) => {
-
             if (prop.layout === "/") {
-                console.log(prop.layout, prop.path);
                 return (
                     <Route
                         exact path={prop.layout + prop.path}
@@ -42,17 +40,22 @@ class Public extends React.Component {
     render() {
         return (
             <>
+                <div ref="mainContent">
                     <LandingNavbar
                         {...this.props}
-                    />
-                    <LandingHeader
-                        {...this.props}
+                        navBarColor = "transparent"
+                        navBarFontColor= "text-white"
                     />
 
                     <Switch>
 
                         {this.getRoutes(routes)}
                     </Switch>
+                    {/*<Container>*/}
+                        <Footer />
+                    {/*</Container>*/}
+                </div>
+
             </>
         );
     }
@@ -60,11 +63,13 @@ class Public extends React.Component {
 
 Public.propTypes = {
     logoutUser: PropTypes.func,
-    auth: PropTypes.object
+    auth: PropTypes.object,
+    cart: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    cart: state.cart
 });
 
 export default connect(
