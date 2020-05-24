@@ -5,6 +5,10 @@ import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING,GET_USER } from "./types";
 import {getCartByUser} from "./cartActions";
 import {createCart } from "./cartActions";
+
+//  Wish list
+import {createWishList} from "./wishlistActions";
+import {getWishlistByUser} from "./wishlistActions"
 // User Register
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -15,6 +19,12 @@ export const registerUser = (userData, history) => dispatch => {
             products: []
         };
         dispatch(createCart(newCart));
+
+        const newWishlist = {
+            user_id: res.data._id,
+            products: []
+        };
+        dispatch(createWishList(newWishlist));
         history.push("/login");
     })
     .catch(err =>
@@ -36,6 +46,7 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
       dispatch(getCartByUser(decoded.id));
+      dispatch(getWishlistByUser(decoded.id));
     })
     .catch(err =>
       dispatch({

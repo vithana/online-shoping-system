@@ -35,6 +35,7 @@ import "./assets/scss/argon-dashboard-react.scss";
 import "./App.css";
 import WishList from "./pages/user/wishlist/wishlist";
 import Checkout from "./pages/user/orders/Checkout";
+import {getWishlistByUser} from "./actions/wishlistActions";
 
 
 if (localStorage.jwtToken) {
@@ -43,6 +44,7 @@ if (localStorage.jwtToken) {
   const decoded = jwt_decode(token);
   store.dispatch(setCurrentUser(decoded));
   store.dispatch(getCartByUser(decoded.id));
+  store.dispatch(getWishlistByUser(decoded.id));
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());

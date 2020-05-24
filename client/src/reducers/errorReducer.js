@@ -1,4 +1,4 @@
-import { GET_ERRORS, GET_CART_ERRORS } from "../actions/types";
+import { GET_ERRORS, GET_CART_ERRORS, GET_WISHLIST_ERRORS } from "../actions/types";
 
 const initialState = {};
 
@@ -8,6 +8,8 @@ export default function(state = initialState, action) {
       return action.payload;
     case GET_CART_ERRORS:
       return action.data;
+    case GET_WISHLIST_ERRORS:
+      return action.wishlist_data;
     default:
       return state;
   }
