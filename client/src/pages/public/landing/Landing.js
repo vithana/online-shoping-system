@@ -24,6 +24,9 @@ import LandingCarousel from "../../../components/Carousel/LandingCarousel";
 
 import AboutUsBackground from '../../../assets/img/slider/slider4.jpeg';
 import classnames from "classnames";
+import CardImg from "reactstrap/es/CardImg";
+import CardText from "reactstrap/es/CardText";
+import {Link} from "react-router-dom";
 
 const about_us_bg ={
     background:`url(${AboutUsBackground}) no-repeat`,
@@ -42,20 +45,55 @@ class Landing extends Component{
                     <h1 className="title text-uppercase" style={{fontSize:"3rem", fontWeight: "1"}}>Featured Products</h1>
                     <div className="row">
                         <div className="col-md-4 py-5">
-                            <div className="card p-5">
-
-                            </div>
+                            <Card className="p-5">
+                                <CardImg
+                                    alt="..."
+                                    src="http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                    top
+                                    height="100%"
+                                />
+                                <CardBody>
+                                    <Link classname="btn btn-primary" to="/product/all">
+                                        Check out our products here
+                                    </Link>
+                                </CardBody>
+                            </Card>
                         </div>
                         <div className="col-md-4 py-5">
-                            <div className="card p-5">
-
-                            </div>
+                            <Card className="p-5">
+                                <CardImg
+                                    alt="..."
+                                    src="http://localhost:5000/uploads/productImg-1589998848046.jpg"
+                                    top
+                                    height="100%"
+                                />
+                                <CardBody>
+                                    <Link classname="btn btn-primary" to="/product/all">
+                                        Check out our products here
+                                    </Link>
+                                </CardBody>
+                            </Card>
                         </div>
                         <div className="col-md-4 py-5">
-                            <div className="card p-5">
-
-                            </div>
+                            <Card className="p-5">
+                                <CardImg
+                                    alt="..."
+                                    src="http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                    top
+                                    height="100%"
+                                />
+                                <CardBody>
+                                    <Link classname="btn btn-primary" to="/product/all">
+                                        Check out our products here
+                                    </Link>
+                                </CardBody>
+                            </Card>
                         </div>
+                        {/*<div className="col-md-4 py-5">*/}
+                        {/*    <div className="card p-5">*/}
+
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                     <hr/>
                 </div>

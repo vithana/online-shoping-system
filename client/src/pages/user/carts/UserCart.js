@@ -17,6 +17,7 @@ import CardText from "reactstrap/es/CardText";
 import {Link} from "react-router-dom";
 
 class UserCart extends Component{
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -32,38 +33,44 @@ class UserCart extends Component{
     }
 
     componentDidMount() {
-        if ((Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object)){
-            this.getProductsInCart(this.props.cart.cart.products);
+        this._isMounted = true;
+        if (this._isMounted){
+            if ((Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object)){
+                this.getProductsInCart(this.props.cart.cart.products);
 
-            this.setState({
-                cartProductsShow:this.props.cart.cart.products
-            }, () => {
-                this.calculateSubTotal();
-            });
+                this.setState({
+                    cartProductsShow:this.props.cart.cart.products
+                }, () => {
+                    this.calculateSubTotal();
+                });
 
-            this.setState({
-                productTotal:this.props.cart.cart.products.length
-            });
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.cart !== this.props.cart){
-            this.getProductsInCart(this.props.cart.cart.products);
-
-            this.setState({
-                cartProductsShow:this.props.cart.cart.products
-            }, () => {
-                this.calculateSubTotal();
-            });
-
-            this.setState({
-                productTotal:this.props.cart.cart.products.length
-            });
+                this.setState({
+                    productTotal:this.props.cart.cart.products.length
+                });
+            }
         }
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this._isMounted){
+            if (prevProps.cart !== this.props.cart){
+                this.getProductsInCart(this.props.cart.cart.products);
+
+                this.setState({
+                    cartProductsShow:this.props.cart.cart.products
+                }, () => {
+                    this.calculateSubTotal();
+                });
+
+                this.setState({
+                    productTotal:this.props.cart.cart.products.length
+                });
+            }
+        }
     }
 
     getProductsInCart = (products) => {
@@ -181,10 +188,9 @@ class UserCart extends Component{
 
     calculateSubTotal= () =>{
         let subtotal = 0;
-        console.log(this.state.cartProductsShow);
+
         this.state.cartProductsShow.map((value, index) => {
             subtotal += value.total;
-            console.log(value.total);
         });
 
 
@@ -223,10 +229,11 @@ class UserCart extends Component{
                                         (Object.keys(this.props.cart.cart).length != 0 && this.props.cart.cart.constructor === Object) ? (
 
                                             this.state.cartProducts.map((value, index) => {
+                                                const image = 'http://localhost:5000/uploads/'+value.productImage;
                                                 return (
                                                     <tr key={index}>
                                                         <td>
-                                                            <img src='http://localhost:5000/uploads/productImg-1589998617467.jpg' style={{ display: 'inline-block', margin: '2px 0 2px 2px',width:60 }} />
+                                                            <img src={image} style={{ display: 'inline-block', margin: '2px 0 2px 2px',width:60 }} />
                                                         </td>
 
                                                         <td>
@@ -243,7 +250,7 @@ class UserCart extends Component{
                                                                     if (value1.product_id == value._id){
                                                                         return (
                                                                             <div className="col-md-4" key={index1}>
-                                                                                    <input size="4" onChange={(e) => this.onQtyChange(e, value1)} className="form-control" name="qty" type="number" value={value1.qty} max={value.productStockQuantity}/>
+                                                                                    <input size="4" onChange={(e) => this.onQtyChange(e, value1)} className="form-control" name="qty" type="number"  value={value1.qty} max={value.productStockQuantity}/>
                                                                             </div>
                                                                         )
                                                                     }
@@ -256,7 +263,7 @@ class UserCart extends Component{
                                                                 this.state.cartProductsShow.map((value2, index2) => {
                                                                     if (value2.product_id == value._id){
                                                                         return (
-                                                                            value2.total
+                                                                            value2.total.toFixed(2)
                                                                         )
                                                                     }
                                                                 })
