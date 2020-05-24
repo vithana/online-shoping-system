@@ -11,17 +11,9 @@ router
        Controller.getWishLists
     );
 
-// // @Route   GET api/wishlists/find/:id
-// // @Desc    Get Particular Wishlist
-// // @Access  Public
-// router
-//     .route('/find/:id')
-//     .get(
-//
-//     );
-//
+
 // // @Route   POST api/wishlists/add
-// // @Desc    Get Every Wishlist
+// // @Desc    Create wishlist
 // // @Access  Public
 router
     .route('/add')

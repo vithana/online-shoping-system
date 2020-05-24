@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { createCart } from "../../../actions/cartActions";
 import Header from "../../../components/Header/Header";
+import {createWishList} from "../../../actions/wishlistActions";
 
 import {
     Badge,
@@ -168,6 +169,11 @@ class AllStoreManagers extends Component{
                     products: []
                 };
                 this.props.createCart(newCart);
+
+                const newWishlist ={
+                  user_id: res.data._id,
+                  products: []
+                };
             })
             .catch(err =>{
                     console.log(err.response.data);
@@ -624,5 +630,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {deleteUser,registerStoreManager,updatePassword, createCart}
+    {deleteUser,registerStoreManager,updatePassword, createCart, createWishList}
 )(AllStoreManagers);
