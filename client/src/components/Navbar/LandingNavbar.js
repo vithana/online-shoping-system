@@ -105,6 +105,11 @@ function LandingNavbar(props) {
                         (user.isAuthenticated)? (
                             <Nav navbar>
                                 <NavItem>
+                                    <NavLink className={classnames(" notification", navbarFontColor)} to="/wishlist" tag={Link}>
+                                        <i className="fa fa-heart" title="Wishlist"></i>&nbsp;
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink className={classnames(" notification", navbarFontColor)} to="public/user/cart" tag={Link}>
                                         <i className="fa fa-shopping-cart" title="View Cart"></i>&nbsp;
                                         {

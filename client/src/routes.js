@@ -13,6 +13,7 @@ import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 import AllProducts from "./pages/admin/products/AllProducts";
 import UserCart from "./pages/user/carts/UserCart";
+import WishList from "./pages/user/wishlist/wishlist";
 
 var routes = [
     {
@@ -154,6 +155,14 @@ var routes = [
         component: AllProducts,
         layout: "/admin",
         sidebar_link: true
+    },
+    {
+        path: "/wishlist",
+        name: "Wish List",
+        icon: "fa fa-heart text-primary",
+        component: WishList,
+        layout: "/",
+        sidebar_link: false
     },
 
 
