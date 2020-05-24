@@ -6,12 +6,12 @@ import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 import UserOrders from "./pages/user/orders/UserOrders";
 import userProfile from "./components/UserProfile/userProfile";
-import {registerUser} from "./actions/authActions";
 import Landing from "./pages/public/landing/Landing";
 import AllCategories from "./pages/admin/category/AllCategories";
 import AllUsers from "./pages/admin/users/AllUsers";
 import AllStoreManagers from "./pages/admin/storeManagers/AllStoreManagers";
 import UserCart from "./pages/user/carts/UserCart";
+import Checkout from "./pages/user/orders/Checkout";
 
 var routes = [
     {
@@ -121,10 +121,19 @@ var routes = [
     },
 
     {
-        path: "/public/user/cart",
+        path: "/cart",
         name: "User Profile",
         icon: "ni ni-tv-2 text-primary",
         component: UserCart,
+        layout: "/",
+        sidebar_link: false
+    },
+
+    {
+        path: "/checkout",
+        name: "User Profile",
+        icon: "ni ni-tv-2 text-primary",
+        component: Checkout,
         layout: "/",
         sidebar_link: false
     },

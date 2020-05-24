@@ -33,6 +33,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./assets/scss/argon-dashboard-react.scss";
 
 import "./App.css";
+import Checkout from "./pages/user/orders/Checkout";
 
 
 if (localStorage.jwtToken) {
@@ -62,7 +63,8 @@ class App extends Component {
             </Switch>
             <Switch>
               <PrivateRoute path="/user" component={UserLayout} />
-              <PrivateRoute exact path="/public/user/cart" component={UserCart} />
+              <PrivateRoute exact path="/cart" component={UserCart} />
+              <PrivateRoute exact path="/checkout" component={Checkout} />
             </Switch>
               <Route exact path="/" component={PublicLayout} />
               {/*<Route exact path="/" component={Landing} />*/}
