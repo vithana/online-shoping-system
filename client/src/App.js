@@ -34,6 +34,7 @@ import "./assets/scss/argon-dashboard-react.scss";
 
 import "./App.css";
 import WishList from "./pages/user/wishlist/wishlist";
+import Checkout from "./pages/user/orders/Checkout";
 
 
 if (localStorage.jwtToken) {
@@ -63,7 +64,8 @@ class App extends Component {
             </Switch>
             <Switch>
               <PrivateRoute path="/user" component={UserLayout} />
-              <PrivateRoute exact path="/public/user/cart" component={UserCart} />
+              <PrivateRoute exact path="/cart" component={UserCart} />
+              <PrivateRoute exact path="/checkout" component={Checkout} />
               <PrivateRoute exact path="/wishlist" component={WishList}/>
             </Switch>
               <Route exact path="/" component={PublicLayout} />
