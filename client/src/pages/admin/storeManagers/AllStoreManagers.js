@@ -2,7 +2,7 @@ import React , {Component} from "react";
 import PropTypes from "prop-types";
 
 
-
+import { createCart } from "../../../actions/cartActions";
 import Header from "../../../components/Header/Header";
 
 import {
@@ -163,6 +163,11 @@ class AllStoreManagers extends Component{
                 //this.props.history.push("/admin/storemanagers/all");
                 this.toggleModal("formModal",null)
 
+                const newCart = {
+                    user_id: res.data._id,
+                    products: []
+                };
+                this.props.createCart(newCart);
             })
             .catch(err =>{
                     console.log(err.response.data);
@@ -606,6 +611,7 @@ AllStoreManagers.propTypes = {
     deleteUser: PropTypes.func.isRequired,
     registerStoreManager: PropTypes.func.isRequired,
     updatePassword: PropTypes.func.isRequired,
+    createCart:PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
@@ -618,5 +624,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {deleteUser,registerStoreManager,updatePassword}
+    {deleteUser,registerStoreManager,updatePassword, createCart}
 )(AllStoreManagers);
