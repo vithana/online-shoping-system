@@ -112,6 +112,11 @@ function LandingNavbar(props) {
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
+                                    <NavLink className={classnames(" notification", navbarFontColor)} to="/wishlist" tag={Link}>
+                                        <i className="fa fa-heart" title="Wishlist"></i>&nbsp;
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink className={classnames(" notification", navbarFontColor)} to="/cart" tag={Link}>
                                         <i className="fa fa-shopping-cart" title="View Cart"></i>&nbsp;
                                         {

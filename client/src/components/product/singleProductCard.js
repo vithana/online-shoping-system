@@ -19,6 +19,7 @@ import { updateCart } from "../../actions/cartActions";
 import {Growl} from "primereact/growl";
 import classnames from "classnames";
 import {Link} from "react-router-dom";
+import { updateWishList} from "../../actions/wishlistActions";
 
 
 class singleProductCard extends Component {
@@ -44,6 +45,13 @@ class singleProductCard extends Component {
                 cartProducts:this.props.cart.cart.products
             });
         }
+        if((Object.keys(this.props.wishlist.wishlist).length != 0 && this.props.wishlist.wishlist.constructor ===Object)){
+            this.setState({
+                wishlistItems: this.props.wishlist.wishlist.products
+
+            })
+
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -52,6 +60,16 @@ class singleProductCard extends Component {
                 cartProducts:this.props.cart.cart.products
             });
         }
+
+        if(prevProps.wishlist !==  this.props.wishlist){
+            this.setState({
+                wishlistItems: this.props.wishlist.wishlist.products
+
+            })
+
+        }
+        console.log(this.state.wishlistItems);
+
     }
 
     addToCart = (product) =>{
@@ -89,6 +107,45 @@ class singleProductCard extends Component {
             });
         }
     };
+
+
+
+
+    addToWishlist = (product) =>{
+
+        let result = this.state.wishlistItems.map(({ product_id }) => product_id);
+
+        if (result.includes(product._id)){
+            this.growl.show({severity: 'error', summary: 'Oops', detail: 'This item is already in wish list'});
+        }
+        else{
+
+
+            const newItem = {
+                product_id: product._id
+            };
+
+            this.setState({
+                wishlistItems: [
+                    ...this.state.wishlistItems,
+                    newItem
+                ]
+            }, () => {
+                const updatedWishlist = {
+                    user_id: this.props.wishlist.wishlist.user_id,
+                    products: this.state.wishlistItems
+                };
+
+                this.props.updateWishList(this.props.wishlist.wishlist._id, updatedWishlist);
+
+                this.growl.show({severity: 'success', summary: 'Success Message', detail: 'Item added to the wish list.'});
+            });
+        }
+    };
+
+
+
+
 
     render() {
         return (
@@ -132,7 +189,7 @@ class singleProductCard extends Component {
 
                                                    color="danger"
                                                    href=""
-                                                   onClick={e => e.preventDefault()}
+                                                   onClick={() => this.addToWishlist(this.state.products)}
                                            >
                                                <i className="fas fa-heart ml-2"></i>
                                                ADD TO WISH LIST
@@ -164,16 +221,18 @@ class singleProductCard extends Component {
 singleProductCard.propTypes = {
     logoutUser: PropTypes.func,
     updateCart: PropTypes.func.isRequired,
+    updateWishList: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     cart: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    cart: state.cart
+    cart: state.cart,
+    wishlist: state.wishlist
 });
 
 export default connect(
     mapStateToProps,
-    { logoutUser, updateCart })
+    { logoutUser, updateCart, updateWishList })
 (singleProductCard);
