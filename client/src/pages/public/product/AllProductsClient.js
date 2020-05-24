@@ -7,7 +7,7 @@ import {logoutUser} from "../../../actions/authActions";
 import Singleproductcard from "../../../components/product/singleProductCard"
  import {Menu} from "primereact/menu";
  import LandingNavbar from "../../../components/Navbar/LandingNavbar";
- import LandingHeader from "../../../components/Header/LandingHeader";
+
  import _findIndex from "lodash.findindex";
 
 class AllProductsClient extends Component{
@@ -96,7 +96,10 @@ class AllProductsClient extends Component{
             {
                 label: 'Category',
                 items: [
-                        {label: 'All', icon: 'pi pi-fw pi-upload'},
+                        {label: 'All', icon: 'pi pi-list'},
+                        {label: 'Men', icon: 'pi pi-fw pi-upload'},
+                        {label: 'Women', icon: 'pi pi-fw pi-upload'},
+                        {label: 'Children', icon: 'pi pi-fw pi-upload'},
                         this.state.category.map((value, index1) => {
                             return (
 
@@ -114,9 +117,7 @@ class AllProductsClient extends Component{
                 <LandingNavbar
                     {...this.props}
                 />
-                <LandingHeader
-                    {...this.props}
-                />
+
 
                 <section>
                     <div className="container-fluid">
