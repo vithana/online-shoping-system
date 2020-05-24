@@ -78,7 +78,7 @@ class Landing extends Component{
                             <Card className="p-5">
                                 <CardImg
                                     alt="..."
-                                    src="http://localhost:5000/uploads/productImg-1589998617467.jpg"
+                                    src="http://localhost:5000/uploads/productImg-1590328089642.jpg"
                                     top
                                     height="100%"
                                 />
